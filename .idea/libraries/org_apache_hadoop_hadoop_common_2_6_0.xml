@@ -4,7 +4,7 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/apache/hadoop/hadoop-common/2.6.0/hadoop-common-2.6.0.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/apache/hadoop/hadoop-annotations/2.6.0/hadoop-annotations-2.6.0.jar!/" />
-      <root url="jar:///usr/lib/jvm/java-1.8.0-openjdk-1.8.0.45-40.b14.fc21.x86_64/lib/tools.jar!/" />
+      <root url="jar:///usr/lib/jvm/java-1.8.0-openjdk-1.8.0.51-4.b16.fc21.x86_64/lib/tools.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/com/google/guava/guava/11.0.2/guava-11.0.2.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/commons-cli/commons-cli/1.2/commons-cli-1.2.jar!/" />
