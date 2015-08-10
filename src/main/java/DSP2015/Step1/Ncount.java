@@ -33,14 +33,14 @@ public class Ncount {
             p.parse(value.toString());
             if(p.getPath()!=null){
                 pKey.set(p.getPath().get(0), p.getW1(), true, true);
-                pValue.setCount(p.getCount());
+                pValue.set(p.getPath().get(0), p.getCount());
                 pValue.setFirst(true);
                 context.write(pKey, pValue);
                 pKey.setFirst(false);
                 pValue.setFirst(false);
                 context.write(pKey, pValue);
                 pKey.set(p.getPath().get(0), p.getW2(), false, true);
-                pValue.setCount(p.getCount());
+                pValue.set(p.getPath().get(0), p.getCount());
                 pValue.setFirst(true);
                 context.write(pKey, pValue);
                 pKey.setFirst(false);
@@ -60,7 +60,7 @@ public class Ncount {
             int count = 0;
             for(PathValue value : values){
                 if(value.getIsFirst().get()) {
-                    count++;
+                    count+= value.getCount().get();
                 }
                 else{
                     intToSend.set(count);

@@ -1,6 +1,7 @@
 package DSP2015;
 
 import DSP2015.Step1.Ncount;
+import DSP2015.Step1.Step1Comparator;
 import DSP2015.Step1.Step1GroupingComparator;
 import DSP2015.Step1.Step1Partitioner;
 import org.apache.hadoop.conf.Configuration;
@@ -41,6 +42,7 @@ public class Flow extends Configured implements Tool  {
         //job1.setCombinerClass(Ncount.NgramCombiner.class);
         job1.setReducerClass(Ncount.ReduceClass.class);
         job1.setPartitionerClass(Step1Partitioner.class);
+        job1.setSortComparatorClass(Step1Comparator.class);
         job1.setGroupingComparatorClass(Step1GroupingComparator.class);
         job1.setMapOutputKeyClass(PathKey.class);
         job1.setMapOutputValueClass(PathValue.class);
