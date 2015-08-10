@@ -25,7 +25,7 @@ public class Tester {
                 // Print the content on the console
                 p.parse(strLine);
                 if(p.getPath() != null){
-                    System.out.println(p.getPath().get(0) + " " + p.getCount());
+                    System.out.println(p.getPath().get(0) + "\n\tX: " + p.getW1() + " Y: " + p.getW2() + " Count: " + p.getCount());
                 }
             }
         } catch (IOException e) {

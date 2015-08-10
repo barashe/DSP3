@@ -96,6 +96,7 @@ public class TripletParser {
 
     private List<String> paths;
     private int count;
+    private String w1, w2;
 
     public TripletParser() {
         count = 0;
@@ -108,6 +109,14 @@ public class TripletParser {
 
     public List<String> getPath() {
         return paths;
+    }
+
+    public String getW1() {
+        return w1;
+    }
+
+    public String getW2() {
+        return w2;
     }
 
     private boolean isValid(ParsedLine pl, Word noun, Word otherNoun){
@@ -142,10 +151,12 @@ public class TripletParser {
                     if(firstNoun == null) {
                         firstNoun = word;
                         path += "X";
+                        w1 = word.getWord();
                     }
                     else {
                         secondNoun = word;
                         path += "Y";
+                        w2 = word.getWord();
                     }
                 }
                 else
