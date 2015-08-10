@@ -1,20 +1,20 @@
 package DSP2015;
 
-import DSP2015.Step1.Ncount;
-import DSP2015.Step1.Step1Comparator;
-import DSP2015.Step1.Step1GroupingComparator;
-import DSP2015.Step1.Step1Partitioner;
+
+import DSP2015.aggregation.Aggregation;
+import DSP2015.aggregation.AggregationComparator;
+import DSP2015.aggregation.AggregationGroupingComparator;
+import DSP2015.aggregation.AggregationPartitioner;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.Text;
+
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
+
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
+
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
@@ -36,14 +36,14 @@ public class Flow extends Configured implements Tool  {
         final String inter2 = "/inter2";
         final String inter3 = "/inter3";
 
-        Job job1 = Job.getInstance(conf, "N count");
+        Job job1 = Job.getInstance(conf, "Aggregation");
         job1.setJarByClass(Flow.class);
-        job1.setMapperClass(Ncount.MapClass.class);
-        //job1.setCombinerClass(Ncount.NgramCombiner.class);
-        job1.setReducerClass(Ncount.ReduceClass.class);
-        job1.setPartitionerClass(Step1Partitioner.class);
-        job1.setSortComparatorClass(Step1Comparator.class);
-        job1.setGroupingComparatorClass(Step1GroupingComparator.class);
+        job1.setMapperClass(Aggregation.MapClass.class);
+        job1.setCombinerClass(Aggregation.AggregationCombiner.class);
+        job1.setReducerClass(Aggregation.ReduceClass.class);
+        job1.setPartitionerClass(AggregationPartitioner.class);
+        job1.setSortComparatorClass(AggregationComparator.class);
+        job1.setGroupingComparatorClass(AggregationGroupingComparator.class);
         job1.setMapOutputKeyClass(PathKey.class);
         job1.setMapOutputValueClass(PathValue.class);
 
