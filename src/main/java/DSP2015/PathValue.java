@@ -112,6 +112,7 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
 
 
     public void write(DataOutput dataOutput) throws IOException {
+        path.write(dataOutput);
         count.write(dataOutput);
         totalCount.write(dataOutput);
         totalPathSlotXCount.write(dataOutput);
@@ -122,6 +123,7 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
     }
 
     public void readFields(DataInput dataInput) throws IOException {
+        path.readFields(dataInput);
         count.readFields(dataInput);
         totalCount.readFields(dataInput);
         totalPathSlotXCount.readFields(dataInput);

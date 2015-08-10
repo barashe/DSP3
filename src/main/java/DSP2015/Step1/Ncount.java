@@ -38,12 +38,14 @@ public class Ncount {
                 context.write(pKey, pValue);
                 pKey.setFirst(false);
                 pValue.setFirst(false);
+                context.write(pKey, pValue);
                 pKey.set(p.getPath().get(0), p.getW2(), false, true);
                 pValue.setCount(p.getCount());
                 pValue.setFirst(true);
                 context.write(pKey, pValue);
                 pKey.setFirst(false);
                 pValue.setFirst(false);
+                context.write(pKey, pValue);
             }
         }
     }
@@ -57,8 +59,9 @@ public class Ncount {
         protected void reduce(PathKey key, Iterable<PathValue> values, Context context) throws IOException, InterruptedException {
             int count = 0;
             for(PathValue value : values){
-                if(value.getIsFirst().get())
+                if(value.getIsFirst().get()) {
                     count++;
+                }
                 else{
                     intToSend.set(count);
                     context.write(value.getPath(), intToSend);
