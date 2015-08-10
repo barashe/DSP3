@@ -125,6 +125,7 @@ public class TripletParser {
         ParsedLine pl = new ParsedLine(line);
         Word word;
         String path ="";
+        paths = null;
         Word firstNoun = null, secondNoun= null;
         for(int i = 0; i < pl.size(); i++){
             word = pl.getWord(i);
@@ -154,9 +155,10 @@ public class TripletParser {
         }
 
         if(firstNoun != null && secondNoun != null){
-            if(isValid(pl, firstNoun, secondNoun) && isValid(pl, secondNoun, firstNoun))
+            if(isValid(pl, firstNoun, secondNoun) && isValid(pl, secondNoun, firstNoun)) {
                 paths = new ArrayList<String>();
                 paths.add(path);
+            }
         }
         count = pl.getCount();
 
