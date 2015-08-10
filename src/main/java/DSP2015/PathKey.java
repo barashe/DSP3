@@ -19,6 +19,13 @@ public class PathKey implements Writable, WritableComparable<PathKey> {
     private BooleanWritable slot; //if true slot = left, if false slot = right
     private BooleanWritable isFirst;
 
+    public PathKey() {
+        path = new Text();
+        word = new Text();
+        slot = new BooleanWritable();
+        isFirst = new BooleanWritable();
+    }
+
     public PathKey(Text path, Text word, BooleanWritable slot) {
         this.path = path;
         this.word = word;
@@ -27,6 +34,25 @@ public class PathKey implements Writable, WritableComparable<PathKey> {
 
     public PathKey(String path, String word, boolean slot) {
         this(new Text(path), new Text(word), new BooleanWritable(slot));
+    }
+
+    public void set(PathKey other){
+        path.set(other.getPath());
+        word.set(other.getWord());
+        slot.set(other.getSlot().get());
+        isFirst.set(other.getIsFirst().get());
+
+    }
+
+    public void set(String path, String word, boolean slot, boolean isFirst){
+        this.path.set(path);
+        this.word.set(word);
+        this.slot.set(slot);
+        this.isFirst.set(isFirst);
+    }
+
+    public void setFirst(boolean isFirst){
+        this.isFirst.set(isFirst);
     }
 
     /**
