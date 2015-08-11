@@ -75,6 +75,14 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
         this.count.set(count);
     }
 
+    public void setTotalCount(int totalCount) {
+        this.totalCount.set(totalCount);
+    }
+
+    public void setCount(int count) {
+        this.count.set(count);
+    }
+
     public void setFirst(boolean isFirst){
         this.isFirst.set(isFirst);
     }

@@ -29,7 +29,6 @@ public class Decrypt {
         @Override
         protected void reduce(PathKey key, Iterable<PathValue> values, Context context) throws IOException, InterruptedException {
             String line = "";
-            int count, nCount;
             for(PathValue value:values){
                 line += key.getPath();
                 String xy = (key.getSlot().get()? "X":"Y");
