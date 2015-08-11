@@ -28,6 +28,8 @@ public class Flow extends Configured implements Tool  {
 
     public int run(String[] args) throws Exception {
         Configuration conf = new Configuration();
+        //conf.set("mapred.job.tracker", "local");
+       // conf.set("fs.default.name", "file:////");
         //conf.set("mapred.map.tasks","10");
         //conf.set("mapred.reduce.tasks","10");
         /*conf.setBoolean("stop", (Integer.parseInt(args[5]) == 1 ? true : false));
@@ -40,6 +42,7 @@ public class Flow extends Configured implements Tool  {
         job1.setJarByClass(Flow.class);
         job1.setMapperClass(Aggregation.MapClass.class);
         job1.setCombinerClass(Aggregation.AggregationCombiner.class);
+        job1.setCombinerKeyGroupingComparatorClass(AggregationGroupingComparator.class);
         job1.setReducerClass(Aggregation.ReduceClass.class);
         job1.setPartitionerClass(AggregationPartitioner.class);
         job1.setSortComparatorClass(AggregationComparator.class);

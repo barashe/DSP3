@@ -32,15 +32,15 @@ public class Ncount {
 
             p.parse(value.toString());
             if(p.getPath()!=null){
-                pKey.set(p.getPath().get(0), p.getW1(), true, true);
-                pValue.set(p.getPath().get(0), p.getCount());
+                pKey.set(p.getPath()[0], p.getW1(), true, true);
+                pValue.set(p.getPath()[0], p.getCount());
                 pValue.setFirst(true);
                 context.write(pKey, pValue);
                 pKey.setFirst(false);
                 pValue.setFirst(false);
                 context.write(pKey, pValue);
-                pKey.set(p.getPath().get(0), p.getW2(), false, true);
-                pValue.set(p.getPath().get(0), p.getCount());
+                pKey.set(p.getPath()[0], p.getW2(), false, true);
+                pValue.set(p.getPath()[0], p.getCount());
                 pValue.setFirst(true);
                 context.write(pKey, pValue);
                 pKey.setFirst(false);

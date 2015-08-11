@@ -12,13 +12,11 @@ public class TripletParser {
         private String word;
         private String type;
         private int parent;
-        private int index;
 
-        public Word(String word, String type, int parent, int index) {
+        public Word(String word, String type, int parent) {
             this.word = word;
             this.type = type;
             this.parent = parent;
-            this.index = index;
         }
 
         public String getWord() {
@@ -45,16 +43,7 @@ public class TripletParser {
             return (type.charAt(0) == 'V');
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
 
-            Word word = (Word) o;
-
-            return index == word.index;
-
-        }
 
     }
 
@@ -69,10 +58,11 @@ public class TripletParser {
             String[] wordsToParse = tmp[1].split(" ");
             for(int i = 0; i < wordsToParse.length; i++){
                 String[] data = wordsToParse[i].split("/");
-                Word word = new Word(data[0], data[1], Integer.parseInt(data[3]), i);
+                Word word = new Word(data[0], data[1], Integer.parseInt(data[3]));
                 words.add(word);
             }
         }
+
 
 
         public Word getWord(int index){
@@ -94,7 +84,7 @@ public class TripletParser {
         }
     }
 
-    private List<String> paths;
+    private String[] paths;
     private int count;
     private String w1, w2;
 
@@ -107,7 +97,7 @@ public class TripletParser {
         return count;
     }
 
-    public List<String> getPath() {
+    public String[] getPath() {
         return paths;
     }
 
@@ -129,46 +119,60 @@ public class TripletParser {
         return true;
     }
 
+    private String extractReversePath(ParsedLine pl, Word w, boolean root, String xy){
+        if(w.isRoot()){
+            if(root)
+                return w.getWord();
+            else
+                return "";
+        }
+        String toWrite = (w.isNoun()? xy: w.getWord());
+        return extractReversePath(pl, pl.getParent(w), root, xy) +" "+ toWrite;
+    }
+
+    private String extractPath(ParsedLine pl, Word firstNoun, Word secondNoun, boolean forward){
+        if(forward)
+            return extractReversePath(pl, firstNoun, false, "X") + " " + extractReversePath(pl, secondNoun, true, "Y");
+        return extractReversePath(pl, firstNoun, false, "Y") + " " + extractReversePath(pl, secondNoun, true, "X");
+
+
+    }
+
     public void parse(String line){
 
         ParsedLine pl = new ParsedLine(line);
         Word word;
-        String path ="";
         paths = null;
         Word firstNoun = null, secondNoun= null;
         for(int i = 0; i < pl.size(); i++){
             word = pl.getWord(i);
-            if(i>0)
-                path += " ";
             if(word.isRoot()) {
                 if (!word.isVerb()) {
                     return;
                 }
-                path += word.getWord();
+
             }
             else {
                 if (word.isNoun()) {
                     if(firstNoun == null) {
                         firstNoun = word;
-                        path += "X";
                         w1 = word.getWord();
                     }
                     else {
                         secondNoun = word;
-                        path += "Y";
+
                         w2 = word.getWord();
                     }
                 }
-                else
-                    path += word.getWord();
 
             }
         }
 
         if(firstNoun != null && secondNoun != null){
             if(isValid(pl, firstNoun, secondNoun) && isValid(pl, secondNoun, firstNoun)) {
-                paths = new ArrayList<String>();
-                paths.add(path);
+                paths = new String[2];
+                paths[0] = extractPath(pl, firstNoun, secondNoun, true);
+                paths[1] = extractPath(pl, secondNoun, firstNoun, false);
             }
         }
         count = pl.getCount();

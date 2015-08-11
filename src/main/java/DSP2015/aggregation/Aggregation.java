@@ -21,26 +21,30 @@ public class Aggregation  {
         private TripletParser p = new TripletParser();
         private PathKey pKey = new PathKey();
         private PathValue pValue = new PathValue();
+        private String[] path;
 
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             p.parse(value.toString());
             if(p.getPath()!=null){
-                pKey.set(p.getPath().get(0), p.getW1(), true, true);
-                pValue.set(p.getPath().get(0), p.getCount());
-                pValue.setFirst(true);
-                context.write(pKey, pValue);
-                pKey.setFirst(false);
-                pValue.setFirst(false);
-                context.write(pKey, pValue);
-                pKey.set(p.getPath().get(0), p.getW2(), false, true);
-                pValue.set(p.getPath().get(0), p.getCount());
-                pValue.setFirst(true);
-                context.write(pKey, pValue);
-                pKey.setFirst(false);
-                pValue.setFirst(false);
-                context.write(pKey, pValue);
+                path = p.getPath();
+                for(int i = 0; i < path.length; i++) {
+                    pKey.set(path[i], p.getW1(), true, true);
+                    pValue.set(path[i], p.getCount());
+                    pValue.setFirst(true);
+                    context.write(pKey, pValue);
+                    pKey.setFirst(false);
+                    pValue.setFirst(false);
+                    context.write(pKey, pValue);
+                    pKey.set(path[i], p.getW2(), false, true);
+                    pValue.set(path[i], p.getCount());
+                    pValue.setFirst(true);
+                    context.write(pKey, pValue);
+                    pKey.setFirst(false);
+                    pValue.setFirst(false);
+                    context.write(pKey, pValue);
+                }
             }
         }
     }
