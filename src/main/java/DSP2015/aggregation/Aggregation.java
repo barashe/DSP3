@@ -48,9 +48,8 @@ public class Aggregation  {
             }
         }
     }
-    public static class ReduceClass extends Reducer<PathKey,PathValue,Text,IntWritable> {
-        private IntWritable intToSend = new IntWritable();
-        private Text textToSend = new Text();
+    public static class ReduceClass extends Reducer<PathKey,PathValue,PathKey,PathValue> {
+        PathValue pValue = new PathValue();
 
         @Override
         protected void reduce(PathKey key, Iterable<PathValue> values, Context context) throws IOException, InterruptedException {
@@ -61,9 +60,9 @@ public class Aggregation  {
                     count += value.getCount().get();
                 }
             }
-            intToSend.set(count);
-            textToSend.set(key.getPath()+ slot + key.getWord());
-            context.write(textToSend, intToSend);
+            pValue.set(key.getPath().toString(), count);
+
+            context.write(key, pValue);
         }
     }
 
