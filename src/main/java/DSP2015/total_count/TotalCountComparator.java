@@ -1,4 +1,4 @@
-package DSP2015.totalCount;
+package DSP2015.total_count;
 
 import DSP2015.PathKey;
 import org.apache.hadoop.io.WritableComparable;

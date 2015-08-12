@@ -1,4 +1,4 @@
-package DSP2015.totalCount;
+package DSP2015.total_count;
 
 import DSP2015.PathKey;
 import org.apache.hadoop.io.WritableComparable;
@@ -13,8 +13,8 @@ public class TotalCountGroupingComparator extends WritableComparator {
     }
     @Override
     public int compare(WritableComparable tp1, WritableComparable tp2) {
-        PathKey PathKey = (PathKey) tp1;
-        PathKey PathKey2 = (PathKey) tp2;
-        return PathKey.getSlot().compareTo(PathKey2.getSlot());
+        PathKey pk = (PathKey) tp1;
+        PathKey pk2 = (PathKey) tp2;
+        return pk.getSlot().compareTo(pk2.getSlot());
     }
 }

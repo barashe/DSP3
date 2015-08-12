@@ -6,10 +6,14 @@ import DSP2015.aggregation.AggregationComparator;
 import DSP2015.aggregation.AggregationGroupingComparator;
 import DSP2015.aggregation.AggregationPartitioner;
 import DSP2015.decrypt.Decrypt;
-import DSP2015.totalCount.TotalCount;
-import DSP2015.totalCount.TotalCountComparator;
-import DSP2015.totalCount.TotalCountGroupingComparator;
-import DSP2015.totalCount.TotalCountPartitioner;
+import DSP2015.total_count.TotalCount;
+import DSP2015.total_count.TotalCountComparator;
+import DSP2015.total_count.TotalCountGroupingComparator;
+import DSP2015.total_count.TotalCountPartitioner;
+import DSP2015.word_slot_count.WordCount;
+import DSP2015.word_slot_count.WordCountComparator;
+import DSP2015.word_slot_count.WordCountGroupingComparator;
+import DSP2015.word_slot_count.WordCountPartitioner;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
@@ -43,9 +47,10 @@ public class Flow extends Configured implements Tool  {
         conf.set("language", args[4]);*/
         final String inter = "/home/barashe/Documents/DSP3/inter";
         final String inter2 = "/home/barashe/Documents/DSP3/inter2";
+        final String inter3 = "/home/barashe/Documents/DSP3/inter3";
         //final String inter = "/inter";
         //final String inter2 = "/inter2";
-        final String inter3 = "/inter3";
+        //final String inter3 = "/inter3";
 
         Job job1 = Job.getInstance(conf, "Aggregation");
         job1.setJarByClass(Flow.class);
@@ -103,27 +108,55 @@ public class Flow extends Configured implements Tool  {
         //conf3.set("mapreduce.job.maps","10");
         //conf3.set("mapreduce.job.reduces","10");
 
-        Job job3 = Job.getInstance(conf3, "Decrypt");
-        job3.setJarByClass(Decrypt.class);
-        job3.setMapperClass(Decrypt.MapClass.class);
-        job3.setReducerClass(Decrypt.ReduceClass.class);
+        Job job3 = Job.getInstance(conf3, "Word Count");
+        job3.setJarByClass(WordCount.class);
+        job3.setMapperClass(TotalCount.MapClass.class);
+        job3.setReducerClass(WordCount.ReduceClass.class);
 
-        job3.setPartitionerClass(AggregationPartitioner.class);
-        job3.setSortComparatorClass(AggregationComparator.class);
-        job3.setGroupingComparatorClass(AggregationGroupingComparator.class);
+        job3.setPartitionerClass(WordCountPartitioner.class);
+        job3.setSortComparatorClass(WordCountComparator.class);
+        job3.setGroupingComparatorClass(WordCountGroupingComparator.class);
+        job3.setCombinerClass(TotalCount.CombinerClass.class);
+        job3.setCombinerKeyGroupingComparatorClass(WordCountGroupingComparator.class);
         job3.setMapOutputKeyClass(PathKey.class);
         job3.setMapOutputValueClass(PathValue.class);
         // Set the outputs
-        //job3.setOutputKeyClass(Ngram.class);
-        //job3.setOutputValueClass(NgramValue.class);
+        job3.setOutputKeyClass(PathKey.class);
+        job3.setOutputValueClass(PathValue.class);
         job3.setInputFormatClass(SequenceFileInputFormat.class);
-        //job3.setOutputFormatClass(FileOutputFormat.class);
+        job3.setOutputFormatClass(SequenceFileOutputFormat.class);
         FileInputFormat.addInputPath(job3, new Path(inter2));
-        //FileOutputFormat.setOutputPath(job3, new Path(inter3));
-        FileOutputFormat.setOutputPath(job3, new Path(args[1]));
+        FileOutputFormat.setOutputPath(job3, new Path(inter3));
+        //FileOutputFormat.setOutputPath(job3, new Path(args[1]));
         job3.waitForCompletion(true);
 
         System.out.println("JOB 3 completed");
+
+        Configuration conf4 = new Configuration();
+        //conf4.set("mapreduce.job.maps","10");
+        //conf4.set("mapreduce.job.reduces","10");
+
+        Job job4 = Job.getInstance(conf4, "Decrypt");
+        job4.setJarByClass(Decrypt.class);
+        job4.setMapperClass(Decrypt.MapClass.class);
+        job4.setReducerClass(Decrypt.ReduceClass.class);
+
+        job4.setPartitionerClass(AggregationPartitioner.class);
+        job4.setSortComparatorClass(AggregationComparator.class);
+        job4.setGroupingComparatorClass(AggregationGroupingComparator.class);
+        job4.setMapOutputKeyClass(PathKey.class);
+        job4.setMapOutputValueClass(PathValue.class);
+        // Set the outputs
+        //job4.setOutputKeyClass(Ngram.class);
+        //job4.setOutputValueClass(NgramValue.class);
+        job4.setInputFormatClass(SequenceFileInputFormat.class);
+        //job4.setOutputFormatClass(FileOutputFormat.class);
+        FileInputFormat.addInputPath(job4, new Path(inter3));
+        //FileOutputFormat.setOutputPath(job4, new Path(inter3));
+        FileOutputFormat.setOutputPath(job4, new Path(args[1]));
+        job4.waitForCompletion(true);
+
+        System.out.println("JOB 4 completed");
 /*
         Configuration conf3 = new Configuration();
         //conf3.set("mapreduce.job.maps","10");

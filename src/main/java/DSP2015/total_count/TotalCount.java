@@ -1,9 +1,7 @@
-package DSP2015.totalCount;
+package DSP2015.total_count;
 
 import DSP2015.PathKey;
 import DSP2015.PathValue;
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -63,7 +61,6 @@ public class TotalCount {
                         sendFirst = false;
                     }
 
-                    value.setTotalCount(count);
                     context.write(key, value);
                 }
             }

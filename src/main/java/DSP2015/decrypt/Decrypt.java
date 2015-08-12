@@ -32,7 +32,7 @@ public class Decrypt {
             for(PathValue value:values){
                 line += key.getPath();
                 String xy = (key.getSlot().get()? "X":"Y");
-                line += ", " + xy + ": " + key.getWord() + ", Count: " + value.getCount().get() + ", Total count: ";
+                line += ", " + xy + ": " + key.getWord() + ", Count: " + value.getCount().get()+ ", Word slot count: " +value.getWordSlotCount().get()+ ", Total count: ";
                 textToSent.set(line);
                 intToSend.set(value.getTotalCount().get());
                 context.write(textToSent, intToSend);
