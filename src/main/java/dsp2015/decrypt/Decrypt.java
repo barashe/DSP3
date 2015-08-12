@@ -1,7 +1,9 @@
 package dsp2015.decrypt;
 
-import dsp2015.PathKey;
-import dsp2015.PathValue;
+import dsp2015.types.PathFeatValue;
+import dsp2015.types.PathKey;
+import dsp2015.types.PathValue;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -14,27 +16,28 @@ import java.io.IOException;
  */
 public class Decrypt {
 
-    public static class MapClass extends Mapper<PathKey, PathValue, PathKey, PathValue> {
+    public static class MapClass extends Mapper<PathKey, PathFeatValue, PathKey, PathFeatValue> {
         @Override
-        protected void map(PathKey key, PathValue value, Context context) throws IOException, InterruptedException {
+        protected void map(PathKey key, PathFeatValue value, Context context) throws IOException, InterruptedException {
             context.write(key, value);
         }
     }
 
-    public static class ReduceClass extends Reducer<PathKey,PathValue,Text,IntWritable> {
+
+
+    public static class ReduceClass extends Reducer<PathKey,PathFeatValue,Text,DoubleWritable> {
 
         private Text textToSent = new Text();
-        private IntWritable intToSend = new IntWritable();
-
+        private DoubleWritable intToSend = new DoubleWritable();
         @Override
-        protected void reduce(PathKey key, Iterable<PathValue> values, Context context) throws IOException, InterruptedException {
+        protected void reduce(PathKey key, Iterable<PathFeatValue> values, Context context) throws IOException, InterruptedException {
             String line = "";
-            for(PathValue value:values){
+            for(PathFeatValue value:values){
                 line += key.getPath();
                 String xy = (key.getSlot().get()? "X":"Y");
-                line += ", " + xy + ": " + key.getWord() + ", Count: " + value.getCount().get()+ ", Word slot count: " +value.getWordSlotCount().get()+ ", Path slot count: " +value.getTotalPathSlotCount().get()+ ", Total count: ";
+                line += ", " + xy + ": " + key.getWord() + ", Count: " + value.getCount().get()+ ", mi: " +value.getMi().get()+ ", tfidf: " +value.getTfidf().get()+ ", Dice: ";
                 textToSent.set(line);
-                intToSend.set(value.getTotalCount().get());
+                intToSend.set(value.getDice().get());
                 context.write(textToSent, intToSend);
             }
         }

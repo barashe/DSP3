@@ -1,4 +1,4 @@
-package dsp2015;
+package dsp2015.types;
 
 import org.apache.hadoop.io.*;
 

@@ -1,7 +1,7 @@
 package dsp2015.aggregation;
 
-import dsp2015.PathKey;
-import dsp2015.PathValue;
+import dsp2015.types.PathKey;
+import dsp2015.types.PathValue;
 import dsp2015.TripletParser;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;

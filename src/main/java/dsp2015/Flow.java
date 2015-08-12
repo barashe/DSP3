@@ -14,6 +14,9 @@ import dsp2015.total_count.TotalCount;
 import dsp2015.total_count.TotalCountComparator;
 import dsp2015.total_count.TotalCountGroupingComparator;
 import dsp2015.total_count.TotalCountPartitioner;
+import dsp2015.types.PathFeatValue;
+import dsp2015.types.PathKey;
+import dsp2015.types.PathValue;
 import dsp2015.word_slot_count.WordCount;
 import dsp2015.word_slot_count.WordCountComparator;
 import dsp2015.word_slot_count.WordCountGroupingComparator;
@@ -22,6 +25,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 
@@ -160,7 +164,7 @@ public class Flow extends Configured implements Tool  {
         job4.setMapOutputValueClass(PathValue.class);
         // Set the outputs
         job4.setOutputKeyClass(PathKey.class);
-        job4.setOutputValueClass(PathValue.class);
+        job4.setOutputValueClass(PathFeatValue.class);
         job4.setInputFormatClass(SequenceFileInputFormat.class);
         job4.setOutputFormatClass(SequenceFileOutputFormat.class);
         FileInputFormat.addInputPath(job4, new Path(inter3));
@@ -183,10 +187,10 @@ public class Flow extends Configured implements Tool  {
         job5.setSortComparatorClass(AggregationComparator.class);
         job5.setGroupingComparatorClass(AggregationGroupingComparator.class);
         job5.setMapOutputKeyClass(PathKey.class);
-        job5.setMapOutputValueClass(PathValue.class);
+        job5.setMapOutputValueClass(PathFeatValue.class);
         // Set the outputs
         //job5.setOutputKeyClass(Ngram.class);
-        //job5.setOutputValueClass(NgramValue.class);
+        job5.setOutputValueClass(DoubleWritable.class);
         job5.setInputFormatClass(SequenceFileInputFormat.class);
         //job5.setOutputFormatClass(FileOutputFormat.class);
         FileInputFormat.addInputPath(job5, new Path(inter4));

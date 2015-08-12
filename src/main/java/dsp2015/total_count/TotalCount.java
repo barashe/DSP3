@@ -1,7 +1,7 @@
 package dsp2015.total_count;
 
-import dsp2015.PathKey;
-import dsp2015.PathValue;
+import dsp2015.types.PathKey;
+import dsp2015.types.PathValue;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
