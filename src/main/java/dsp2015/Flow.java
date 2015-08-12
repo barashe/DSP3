@@ -6,6 +6,7 @@ import dsp2015.aggregation.AggregationComparator;
 import dsp2015.aggregation.AggregationGroupingComparator;
 import dsp2015.aggregation.AggregationPartitioner;
 import dsp2015.decrypt.Decrypt;
+import dsp2015.decrypt.DecryptPartitioner;
 import dsp2015.path_slot_count.PathCount;
 import dsp2015.path_slot_count.PathCountComparator;
 import dsp2015.path_slot_count.PathCountGroupingComparator;
@@ -92,7 +93,7 @@ public class Flow extends Configured implements Tool  {
 
         Configuration conf2 = new Configuration();
         //conf2.set("mapreduce.job.maps","10");
-        //conf2.set("mapreduce.job.reduces","10");
+       // conf2.set("mapreduce.job.reduces","2");
 
         Job job2 = Job.getInstance(conf2, "Total Count");
         job2.setJarByClass(TotalCount.class);
@@ -148,7 +149,7 @@ public class Flow extends Configured implements Tool  {
 
         Configuration conf4 = new Configuration();
         //conf4.set("mapreduce.job.maps","10");
-        //conf4.set("mapreduce.job.reduces","10");
+       // conf4.set("mapreduce.job.reduces","10");
 
         Job job4 = Job.getInstance(conf4, "Path Count");
         job4.setJarByClass(PathCount.class);
@@ -183,7 +184,7 @@ public class Flow extends Configured implements Tool  {
         job5.setMapperClass(Decrypt.MapClass.class);
         job5.setReducerClass(Decrypt.ReduceClass.class);
 
-        job5.setPartitionerClass(AggregationPartitioner.class);
+        job5.setPartitionerClass(DecryptPartitioner.class);
         job5.setSortComparatorClass(AggregationComparator.class);
         job5.setGroupingComparatorClass(AggregationGroupingComparator.class);
         job5.setMapOutputKeyClass(PathKey.class);

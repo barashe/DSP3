@@ -11,6 +11,6 @@ public class PathCountPartitioner  extends Partitioner<PathKey, PathValue> {
     @Override
     public int getPartition(PathKey pathKey, PathValue pathValue, int i) {
         int n = pathKey.getPath().hashCode() + 163* (pathKey.getSlot().get()?11:7);
-        return n % i;
+        return Math.abs(n % i);
     }
 }

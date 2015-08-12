@@ -12,6 +12,6 @@ public class AggregationPartitioner extends Partitioner<PathKey, PathValue> {
 
     @Override
     public int getPartition(PathKey pathKey, PathValue pathValue, int i) {
-        return pathKey.getPath().hashCode() % i;
+        return Math.abs(pathKey.getPath().hashCode() % i);
     }
 }
