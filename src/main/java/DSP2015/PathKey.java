@@ -55,14 +55,6 @@ public class PathKey implements Writable, WritableComparable<PathKey> {
         this.isFirst.set(isFirst);
     }
 
-    /**
-     * Deep copies PathKey 'other' to a new PathKey
-     * @param other - a PathKey to copy
-     */
-    public PathKey(PathKey other) {
-        this(other.getPath(), other.getWord(), other.getSlot());
-    }
-
     public Text getPath() {
         return new Text(path);
     }

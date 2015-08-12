@@ -53,12 +53,14 @@ public class TotalCount {
                 }
                 else{
                     if(sendFirst){
-                        PathKey tmpKey = new PathKey(key);
+                        PathKey tmpKey = new PathKey();
+                        tmpKey.set(key);
                         PathValue tmpValue = new PathValue(value);
                         tmpKey.setFirst(true);
                         tmpValue.setFirst(true);
                         tmpValue.setCount(count);
                         context.write(tmpKey, tmpValue);
+                        sendFirst = false;
                     }
 
                     value.setTotalCount(count);

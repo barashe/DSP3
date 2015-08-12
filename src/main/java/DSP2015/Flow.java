@@ -35,16 +35,16 @@ public class Flow extends Configured implements Tool  {
 
     public int run(String[] args) throws Exception {
         Configuration conf = new Configuration();
-        //conf.set("mapred.job.tracker", "local");
-        //conf.set("fs.default.name", "file:////");
+        conf.set("mapred.job.tracker", "local");
+        conf.set("fs.default.name", "file:////");
         //conf.set("mapred.map.tasks","10");
         //conf.set("mapred.reduce.tasks","10");
         /*conf.setBoolean("stop", (Integer.parseInt(args[5]) == 1 ? true : false));
         conf.set("language", args[4]);*/
-        //final String inter = "/home/barashe/Documents/DSP3/inter";
-        //final String inter2 = "/home/barashe/Documents/DSP3/inter2";
-        final String inter = "/inter";
-        final String inter2 = "/inter2";
+        final String inter = "/home/barashe/Documents/DSP3/inter";
+        final String inter2 = "/home/barashe/Documents/DSP3/inter2";
+        //final String inter = "/inter";
+        //final String inter2 = "/inter2";
         final String inter3 = "/inter3";
 
         Job job1 = Job.getInstance(conf, "Aggregation");
