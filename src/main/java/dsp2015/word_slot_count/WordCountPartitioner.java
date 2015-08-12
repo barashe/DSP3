@@ -1,7 +1,7 @@
-package DSP2015.word_slot_count;
+package dsp2015.word_slot_count;
 
-import DSP2015.PathKey;
-import DSP2015.PathValue;
+import dsp2015.PathKey;
+import dsp2015.PathValue;
 import org.apache.hadoop.mapreduce.Partitioner;
 
 /**

@@ -1,7 +1,7 @@
-package DSP2015.aggregation;
+package dsp2015.aggregation;
 
-import DSP2015.PathKey;
-import DSP2015.PathValue;
+import dsp2015.PathKey;
+import dsp2015.PathValue;
 import org.apache.hadoop.mapreduce.Partitioner;
 
 

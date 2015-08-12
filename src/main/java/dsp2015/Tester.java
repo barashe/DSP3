@@ -1,4 +1,4 @@
-package DSP2015;
+package dsp2015;
 
 import java.io.*;
 
@@ -11,7 +11,7 @@ public class Tester {
         TripletParser p = new TripletParser();
         FileInputStream fstream = null;
         try {
-            fstream = new FileInputStream("/home/barashe/IdeaProjects/DSP3/src/main/java/DSP2015/out3");
+            fstream = new FileInputStream("/home/barashe/IdeaProjects/DSP3/src/main/java/dsp2015/out3");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

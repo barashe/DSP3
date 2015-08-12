@@ -1,4 +1,4 @@
-package DSP2015;
+package dsp2015;
 
 import java.util.ArrayList;
 import java.util.List;

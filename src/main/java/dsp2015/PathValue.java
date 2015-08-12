@@ -1,4 +1,4 @@
-package DSP2015;
+package dsp2015;
 
 import org.apache.hadoop.io.*;
 
@@ -14,8 +14,7 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
     private Text path;
     private IntWritable count;
     private IntWritable totalCount;
-    private IntWritable totalPathSlotXCount;
-    private IntWritable totalPathSlotYCount;
+    private IntWritable totalPathSlotCount;
     private IntWritable wordSlotCount;
 
     private BooleanWritable isFirst;
@@ -24,30 +23,28 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
         path = new Text();
         count = new IntWritable();
         totalCount = new IntWritable();
-        totalPathSlotXCount = new IntWritable();
-        totalPathSlotYCount = new IntWritable();
+        totalPathSlotCount = new IntWritable();
         wordSlotCount = new IntWritable();
 
         isFirst = new BooleanWritable();
 
     }
 
-    public PathValue(Text path, IntWritable count, IntWritable totalCount, IntWritable totalPathSlotXCount, IntWritable totalPathSlotYCount, IntWritable wordSlotCount, BooleanWritable isFirst) {
+    public PathValue(Text path, IntWritable count, IntWritable totalCount, IntWritable totalPathSlotCount, IntWritable wordSlotCount, BooleanWritable isFirst) {
         this.path = path;
         this.count = count;
         this.totalCount = totalCount;
-        this.totalPathSlotXCount = totalPathSlotXCount;
-        this.totalPathSlotYCount = totalPathSlotYCount;
+        this.totalPathSlotCount = totalPathSlotCount;
         this.wordSlotCount = wordSlotCount;
         this.isFirst = isFirst;
     }
 
-    public PathValue(String path, int count, int totalCount, int totalPathSlotXCount, int totalPathSlotYCount, int wordSlotCount, boolean isFirst) {
-        this(new Text(path), new IntWritable(count), new IntWritable(totalCount), new IntWritable(totalPathSlotXCount), new IntWritable(totalPathSlotYCount), new IntWritable(wordSlotCount), new BooleanWritable(isFirst));
+    public PathValue(String path, int count, int totalCount, int totalPathSlotCount, int wordSlotCount, boolean isFirst) {
+        this(new Text(path), new IntWritable(count), new IntWritable(totalCount), new IntWritable(totalPathSlotCount), new IntWritable(wordSlotCount), new BooleanWritable(isFirst));
     }
 
     public PathValue(String path, int count, boolean isFirst) {
-        this(path, count, 0, 0, 0, 0, isFirst);
+        this(path, count, 0, 0, 0, isFirst);
 
     }
 
@@ -56,14 +53,13 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
      * @param other - a PathValue to copy
      */
     public PathValue(PathValue other){
-        this(other.getPath(), other.getCount(), other.getTotalCount(), other.getTotalPathSlotXCount(), other.getTotalPathSlotYCount(), other.getWordSlotCount(), other.getIsFirst());
+        this(other.getPath(), other.getCount(), other.getTotalCount(), other.getTotalPathSlotCount(), other.getWordSlotCount(), other.getIsFirst());
     }
 
-    public void set(int count, int totalCount, int totalPathSlotXCount, int totalPathSlotYCount, int wordSlotCount, boolean isFirst){
+    public void set(int count, int totalCount, int totalPathSlotCount, int wordSlotCount, boolean isFirst){
         this.count.set(count);
         this.totalCount.set(totalCount);
-        this.totalPathSlotXCount.set(totalPathSlotXCount);
-        this.totalPathSlotYCount.set(totalPathSlotYCount);
+        this.totalPathSlotCount.set(totalPathSlotCount);
         this.wordSlotCount.set(wordSlotCount);
         this.isFirst.set(isFirst);
     }
@@ -75,6 +71,10 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
 
     public void setTotalCount(int totalCount) {
         this.totalCount.set(totalCount);
+    }
+
+    public void setTotalPathSlotCount(int totalPathSlotCount) {
+        this.totalPathSlotCount.set(totalPathSlotCount);
     }
 
     public void setCount(int count) {
@@ -97,13 +97,10 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
         return new IntWritable(totalCount.get());
     }
 
-    public IntWritable getTotalPathSlotXCount() {
-        return new IntWritable(totalPathSlotXCount.get());
+    public IntWritable getTotalPathSlotCount() {
+        return new IntWritable(totalPathSlotCount.get());
     }
 
-    public IntWritable getTotalPathSlotYCount() {
-        return new IntWritable(totalPathSlotYCount.get());
-    }
 
     public IntWritable getWordSlotCount() {
         return new IntWritable(wordSlotCount.get());
@@ -122,8 +119,7 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
         path.write(dataOutput);
         count.write(dataOutput);
         totalCount.write(dataOutput);
-        totalPathSlotXCount.write(dataOutput);
-        totalPathSlotYCount.write(dataOutput);
+        totalPathSlotCount.write(dataOutput);
         wordSlotCount.write(dataOutput);
 
         isFirst.write(dataOutput);
@@ -133,8 +129,7 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
         path.readFields(dataInput);
         count.readFields(dataInput);
         totalCount.readFields(dataInput);
-        totalPathSlotXCount.readFields(dataInput);
-        totalPathSlotYCount.readFields(dataInput);
+        totalPathSlotCount.readFields(dataInput);
         wordSlotCount.readFields(dataInput);
         isFirst.readFields(dataInput);
     }

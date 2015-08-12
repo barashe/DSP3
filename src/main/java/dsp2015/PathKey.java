@@ -1,4 +1,4 @@
-package DSP2015;
+package dsp2015;
 
 import org.apache.hadoop.io.BooleanWritable;
 import org.apache.hadoop.io.Text;

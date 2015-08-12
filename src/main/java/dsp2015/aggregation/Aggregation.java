@@ -1,9 +1,8 @@
-package DSP2015.aggregation;
+package dsp2015.aggregation;
 
-import DSP2015.PathKey;
-import DSP2015.PathValue;
-import DSP2015.TripletParser;
-import org.apache.hadoop.io.IntWritable;
+import dsp2015.PathKey;
+import dsp2015.PathValue;
+import dsp2015.TripletParser;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;

@@ -1,6 +1,6 @@
-package DSP2015.aggregation;
+package dsp2015.aggregation;
 
-import DSP2015.PathKey;
+import dsp2015.PathKey;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 

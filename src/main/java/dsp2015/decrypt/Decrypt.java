@@ -1,7 +1,7 @@
-package DSP2015.decrypt;
+package dsp2015.decrypt;
 
-import DSP2015.PathKey;
-import DSP2015.PathValue;
+import dsp2015.PathKey;
+import dsp2015.PathValue;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -32,7 +32,7 @@ public class Decrypt {
             for(PathValue value:values){
                 line += key.getPath();
                 String xy = (key.getSlot().get()? "X":"Y");
-                line += ", " + xy + ": " + key.getWord() + ", Count: " + value.getCount().get()+ ", Word slot count: " +value.getWordSlotCount().get()+ ", Total count: ";
+                line += ", " + xy + ": " + key.getWord() + ", Count: " + value.getCount().get()+ ", Word slot count: " +value.getWordSlotCount().get()+ ", Path slot count: " +value.getTotalPathSlotCount().get()+ ", Total count: ";
                 textToSent.set(line);
                 intToSend.set(value.getTotalCount().get());
                 context.write(textToSent, intToSend);

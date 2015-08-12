@@ -1,4 +1,4 @@
-package DSP2015;
+package dsp2015;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;

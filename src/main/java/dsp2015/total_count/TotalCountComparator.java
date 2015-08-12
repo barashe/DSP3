@@ -1,6 +1,6 @@
-package DSP2015.total_count;
+package dsp2015.total_count;
 
-import DSP2015.PathKey;
+import dsp2015.PathKey;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 
