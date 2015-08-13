@@ -1,11 +1,9 @@
 package dsp2015.path_slot_count;
 
-import dsp2015.total_count.StatComp;
-import dsp2015.types.PathFeatValue;
+
 import dsp2015.types.PathKey;
 import dsp2015.types.PathValue;
 import org.apache.hadoop.mapreduce.Reducer;
-
 import java.io.IOException;
 
 /**
@@ -13,11 +11,6 @@ import java.io.IOException;
  */
 public class PathCount {
     public static class ReduceClass extends Reducer<PathKey,PathValue,PathKey,PathValue> {
-        /*
-        private StatComp stat = new StatComp();
-        private PathFeatValue toSend = new PathFeatValue();
-    */
-
 
 
         @Override
@@ -28,13 +21,7 @@ public class PathCount {
                 if(value.getIsFirst().get()) {
                     count+= value.getCount().get();
                 }
-                /*else{
-                    value.setTotalPathSlotCount(count);
-                    toSend.set(value);
-                    stat.comp(value);
-                    toSend.setStat(stat.getMi(), stat.getTfidf(), stat.getDice());
-                    context.write(key, toSend);
-                }*/
+
                 else {
                     value.setTotalPathSlotCount(count);
                     if(count >= minFeatNum)

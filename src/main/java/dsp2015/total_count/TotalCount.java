@@ -38,10 +38,7 @@ public class TotalCount {
                 if(value.getIsFirst().get()) {
                     count+= value.getCount().get();
                 }
-                /*else{
-                    value.setTotalCount(count);
-                    context.write(key, value);
-                }*/
+
                 else{
                     value.setTotalCount(count);
                     toSend.set(value);
