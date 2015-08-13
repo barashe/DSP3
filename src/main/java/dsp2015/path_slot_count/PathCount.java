@@ -23,7 +23,7 @@ public class PathCount {
         @Override
         protected void reduce(PathKey key, Iterable<PathValue> values, Context context) throws IOException, InterruptedException {
             int count = 0;
-            double minFeatNum =  context.getConfiguration().getDouble("minFeatNum", 0);
+            int minFeatNum =  context.getConfiguration().getInt("minFeatNum", 0);
             for(PathValue value : values){
                 if(value.getIsFirst().get()) {
                     count+= value.getCount().get();

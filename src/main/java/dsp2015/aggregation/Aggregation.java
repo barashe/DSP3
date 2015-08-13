@@ -21,11 +21,11 @@ public class Aggregation  {
         private PathKey pKey = new PathKey();
         private PathValue pValue = new PathValue();
         private String[] path;
-        private double dpMinCount;
+        private int dpMinCount;
 
         @Override
         protected void setup(Context context) throws IOException, InterruptedException {
-            dpMinCount = context.getConfiguration().getDouble("dpMinCount", 0);
+            dpMinCount = context.getConfiguration().getInt("dpMinCount", 0);
         }
 
         @Override
