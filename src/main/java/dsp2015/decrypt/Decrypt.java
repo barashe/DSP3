@@ -2,9 +2,7 @@ package dsp2015.decrypt;
 
 import dsp2015.types.PathFeatValue;
 import dsp2015.types.PathKey;
-import dsp2015.types.PathValue;
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -19,6 +17,7 @@ public class Decrypt {
     public static class MapClass extends Mapper<PathKey, PathFeatValue, PathKey, PathFeatValue> {
         @Override
         protected void map(PathKey key, PathFeatValue value, Context context) throws IOException, InterruptedException {
+            value.setWord(key.getWord());
             context.write(key, value);
         }
     }

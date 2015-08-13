@@ -12,6 +12,7 @@ import java.io.IOException;
 public class PathFeatValue implements Writable, WritableComparable<PathFeatValue> {
 
     private Text path;
+    private Text word;
     private IntWritable count;
     private DoubleWritable mi;
     private DoubleWritable tfidf;
@@ -20,6 +21,7 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
 
     public PathFeatValue(){
         path = new Text();
+        word = new Text();
         count = new IntWritable();
         mi = new DoubleWritable();
         tfidf = new DoubleWritable();
@@ -36,6 +38,10 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
         this.mi.set(mi);
         this.tfidf.set(tfidf);
         this.dice.set(dice);
+    }
+
+    public void setWord(Text word) {
+        this.word.set(word);
     }
 
     public void setFirst(boolean isFirst){

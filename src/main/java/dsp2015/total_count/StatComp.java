@@ -1,4 +1,4 @@
-package dsp2015.path_slot_count;
+package dsp2015.total_count;
 
 import dsp2015.types.PathFeatValue;
 import dsp2015.types.PathValue;

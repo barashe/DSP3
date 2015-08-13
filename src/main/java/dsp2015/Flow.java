@@ -61,12 +61,13 @@ public class Flow extends Configured implements Tool  {
         final String inter4 = "/home/barashe/Documents/DSP3/inter4";
         //*/
         /*
-        final String inter = "/inter";
-        final String inter2 = "/inter2";
-        final String inter3 = "/inter3";
-        final String inter4 = "/inter4";
+        final String inter = "/output/inter";
+        final String inter2 = "/output/inter2";
+        final String inter3 = "/output/inter3";
+        final String inter4 = "/output/inter4";
         */
 
+        conf.set("dpMinCount", args[2]);
         Job job1 = Job.getInstance(conf, "Aggregation");
         job1.setJarByClass(Flow.class);
         job1.setMapperClass(Aggregation.MapClass.class);
@@ -93,18 +94,18 @@ public class Flow extends Configured implements Tool  {
 
         Configuration conf2 = new Configuration();
         //conf2.set("mapreduce.job.maps","10");
-       // conf2.set("mapreduce.job.reduces","2");
-
-        Job job2 = Job.getInstance(conf2, "Total Count");
-        job2.setJarByClass(TotalCount.class);
+        // conf2.set("mapreduce.job.reduces","10");
+        conf2.set("minFeatNum", args[3]);
+        Job job2 = Job.getInstance(conf2, "Path Count");
+        job2.setJarByClass(PathCount.class);
         job2.setMapperClass(TotalCount.MapClass.class);
-        job2.setReducerClass(TotalCount.ReduceClass.class);
+        job2.setReducerClass(PathCount.ReduceClass.class);
 
-        job2.setPartitionerClass(TotalCountPartitioner.class);
-        job2.setSortComparatorClass(TotalCountComparator.class);
-        job2.setGroupingComparatorClass(TotalCountGroupingComparator.class);
+        job2.setPartitionerClass(PathCountPartitioner.class);
+        job2.setSortComparatorClass(PathCountComparator.class);
+        job2.setGroupingComparatorClass(PathCountGroupingComparator.class);
         job2.setCombinerClass(TotalCount.CombinerClass.class);
-        job2.setCombinerKeyGroupingComparatorClass(TotalCountGroupingComparator.class);
+        job2.setCombinerKeyGroupingComparatorClass(PathCountGroupingComparator.class);
         job2.setMapOutputKeyClass(PathKey.class);
         job2.setMapOutputValueClass(PathValue.class);
         // Set the outputs
@@ -118,6 +119,7 @@ public class Flow extends Configured implements Tool  {
         job2.waitForCompletion(true);
 
         System.out.println("JOB 2 completed");
+        
 
         Configuration conf3 = new Configuration();
         //conf3.set("mapreduce.job.maps","10");
@@ -149,18 +151,19 @@ public class Flow extends Configured implements Tool  {
 
         Configuration conf4 = new Configuration();
         //conf4.set("mapreduce.job.maps","10");
-       // conf4.set("mapreduce.job.reduces","10");
+        // conf4.set("mapreduce.job.reduces","4");
 
-        Job job4 = Job.getInstance(conf4, "Path Count");
-        job4.setJarByClass(PathCount.class);
+
+        Job job4 = Job.getInstance(conf4, "Total Count");
+        job4.setJarByClass(TotalCount.class);
         job4.setMapperClass(TotalCount.MapClass.class);
-        job4.setReducerClass(PathCount.ReduceClass.class);
+        job4.setReducerClass(TotalCount.ReduceClass.class);
 
-        job4.setPartitionerClass(PathCountPartitioner.class);
-        job4.setSortComparatorClass(PathCountComparator.class);
-        job4.setGroupingComparatorClass(PathCountGroupingComparator.class);
+        job4.setPartitionerClass(TotalCountPartitioner.class);
+        job4.setSortComparatorClass(TotalCountComparator.class);
+        job4.setGroupingComparatorClass(TotalCountGroupingComparator.class);
         job4.setCombinerClass(TotalCount.CombinerClass.class);
-        job4.setCombinerKeyGroupingComparatorClass(PathCountGroupingComparator.class);
+        job4.setCombinerKeyGroupingComparatorClass(TotalCountGroupingComparator.class);
         job4.setMapOutputKeyClass(PathKey.class);
         job4.setMapOutputValueClass(PathValue.class);
         // Set the outputs

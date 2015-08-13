@@ -1,5 +1,6 @@
 package dsp2015.total_count;
 
+import dsp2015.types.PathFeatValue;
 import dsp2015.types.PathKey;
 import dsp2015.types.PathValue;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -24,7 +25,12 @@ public class TotalCount {
         }
     }
 
-    public static class ReduceClass extends Reducer<PathKey,PathValue,PathKey,PathValue> {
+    public static class ReduceClass extends Reducer<PathKey,PathValue,PathKey,PathFeatValue> {
+
+
+        private StatComp stat = new StatComp();
+        private PathFeatValue toSend = new PathFeatValue();
+
         @Override
         protected void reduce(PathKey key, Iterable<PathValue> values, Context context) throws IOException, InterruptedException {
             int count = 0;
@@ -32,9 +38,16 @@ public class TotalCount {
                 if(value.getIsFirst().get()) {
                     count+= value.getCount().get();
                 }
-                else{
+                /*else{
                     value.setTotalCount(count);
                     context.write(key, value);
+                }*/
+                else{
+                    value.setTotalCount(count);
+                    toSend.set(value);
+                    stat.comp(value);
+                    toSend.setStat(stat.getMi(), stat.getTfidf(), stat.getDice());
+                    context.write(key, toSend);
                 }
             }
         }

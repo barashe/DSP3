@@ -21,12 +21,18 @@ public class Aggregation  {
         private PathKey pKey = new PathKey();
         private PathValue pValue = new PathValue();
         private String[] path;
+        private double dpMinCount;
+
+        @Override
+        protected void setup(Context context) throws IOException, InterruptedException {
+            dpMinCount = context.getConfiguration().getDouble("dpMinCount", 0);
+        }
 
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
             p.parse(value.toString());
-            if(p.getPath()!=null){
+            if(p.getPath()!=null && p.getCount() >= dpMinCount){
                 path = p.getPath();
                 for(int i = 0; i < path.length; i++) {
                     pKey.set(path[i], p.getW1(), true, true);

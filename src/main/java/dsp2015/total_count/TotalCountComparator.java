@@ -19,6 +19,9 @@ public class TotalCountComparator extends WritableComparator {
         int res = p2.getSlot().compareTo(p1.getSlot());
         if(res ==0){
             res = p2.getIsFirst().compareTo(p1.getIsFirst());
+            if(res == 0){
+                res = p1.getPath().compareTo(p2.getPath());
+            }
         }
         return res;
     }
