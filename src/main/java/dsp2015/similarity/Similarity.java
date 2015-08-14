@@ -120,6 +120,7 @@ public class Similarity {
                     tableToUpdate = YfeatureTable;
                     simToUpdate = simCompY;
                 }
+                //check if current value is p1 or p2 in the simKey
                 if (key.getSimKey().toString().split("\t")[0].equals(key.getPath().toString()))
                     isP1=true;
                 else
