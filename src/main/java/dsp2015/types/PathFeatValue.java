@@ -44,6 +44,10 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
         this.word.set(word);
     }
 
+    public Text getWord() {
+        return word;
+    }
+
     public void setFirst(boolean isFirst){
         this.isFirst.set(isFirst);
     }
@@ -78,6 +82,7 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
 
     public void write(DataOutput dataOutput) throws IOException {
         path.write(dataOutput);
+        word.write(dataOutput);
         count.write(dataOutput);
         mi.write(dataOutput);
         tfidf.write(dataOutput);
@@ -87,11 +92,18 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
 
     public void readFields(DataInput dataInput) throws IOException {
         path.readFields(dataInput);
+        word.readFields(dataInput);
         count.readFields(dataInput);
         mi.readFields(dataInput);
         tfidf.readFields(dataInput);
         dice.readFields(dataInput);
         isFirst.readFields(dataInput);
 
+    }
+
+    @Override
+    public String toString() {
+        //return super.toString();
+        return "path:" + path.toString() + ", word:"+ word.toString() +", count:"+count + ", mi:"+ mi +", tfidf:" + tfidf +", dice:"+dice+ ", isFirst:"+ isFirst;
     }
 }

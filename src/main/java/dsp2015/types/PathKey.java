@@ -92,6 +92,7 @@ public class PathKey implements Writable, WritableComparable<PathKey> {
         word.write(dataOutput);
         slot.write(dataOutput);
         isFirst.write(dataOutput);
+        simKey.write(dataOutput);
     }
 
     public void readFields(DataInput dataInput) throws IOException {
@@ -99,5 +100,6 @@ public class PathKey implements Writable, WritableComparable<PathKey> {
         word.readFields(dataInput);
         slot.readFields(dataInput);
         isFirst.readFields(dataInput);
+        simKey.readFields(dataInput);
     }
 }

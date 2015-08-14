@@ -11,6 +11,9 @@ import dsp2015.path_slot_count.PathCount;
 import dsp2015.path_slot_count.PathCountComparator;
 import dsp2015.path_slot_count.PathCountGroupingComparator;
 import dsp2015.path_slot_count.PathCountPartitioner;
+import dsp2015.similarity.Similarity;
+import dsp2015.similarity.SimilarityComparator;
+import dsp2015.similarity.SimilarityPartitioner;
 import dsp2015.total_count.TotalCount;
 import dsp2015.total_count.TotalCountComparator;
 import dsp2015.total_count.TotalCountGroupingComparator;
@@ -38,13 +41,15 @@ import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+import java.net.URI;
+
 /**
  * Created by barashe on 8/10/15.
  */
 public class Flow extends Configured implements Tool  {
 
-
-
+private String positiveTestSet = "/home/ran/Documents/DSP3/positive-preds.txt";
+private String negativeTestSet = "/home/ran/Documents/DSP3/negative-preds.txt";
 
     public int run(String[] args) throws Exception {
         Configuration conf = new Configuration();
@@ -55,10 +60,10 @@ public class Flow extends Configured implements Tool  {
         /*conf.setBoolean("stop", (Integer.parseInt(args[5]) == 1 ? true : false));
         conf.set("language", args[4]);*/
         ///*
-        final String inter = "/home/barashe/Documents/DSP3/inter";
-        final String inter2 = "/home/barashe/Documents/DSP3/inter2";
-        final String inter3 = "/home/barashe/Documents/DSP3/inter3";
-        final String inter4 = "/home/barashe/Documents/DSP3/inter4";
+        final String inter = "/home/ran/Documents/DSP3/inter";
+        final String inter2 = "/home/ran/Documents/DSP3/inter2";
+        final String inter3 = "/home/ran/Documents/DSP3/inter3";
+        final String inter4 = "/home/ran/Documents/DSP3/inter4";
         //*/
         /*
         final String inter = "/output/inter";
@@ -203,6 +208,37 @@ public class Flow extends Configured implements Tool  {
         job5.waitForCompletion(true);
 
         System.out.println("JOB 5 completed");
+
+        Configuration conf6 = new Configuration();
+        //conf6.set("mapreduce.job.maps","10");
+        //conf6.set("mapreduce.job.reduces","10");
+        conf6.set("positiveTestSet",positiveTestSet);
+        conf6.set("negativeTestSet",negativeTestSet);
+
+        Job job6 = Job.getInstance(conf6, "Similarity");
+        job6.setJarByClass(Similarity.class);
+        job6.setMapperClass(Similarity.MapClass.class);
+        job6.setReducerClass(Similarity.ReduceClass.class);
+
+        //job6.addCacheFile(new URI(positiveTestSet));
+        //job6.addCacheFile(new URI(negativeTestSet));
+
+        job6.setPartitionerClass(SimilarityPartitioner.class);
+        job6.setSortComparatorClass(SimilarityComparator.class);
+        //job6.setGroupingComparatorClass(AggregationGroupingComparator.class);
+        job6.setMapOutputKeyClass(PathKey.class);
+        job6.setMapOutputValueClass(PathFeatValue.class);
+        // Set the outputs
+        //job6.setOutputKeyClass(Ngram.class);
+        job6.setOutputValueClass(PathFeatValue.class);
+        job6.setInputFormatClass(SequenceFileInputFormat.class);
+        //job6.setOutputFormatClass(FileOutputFormat.class);
+        FileInputFormat.addInputPath(job6, new Path(inter4));
+        //FileOutputFormat.setOutputPath(job6, new Path(inter3));
+        FileOutputFormat.setOutputPath(job6, new Path(args[1]+"/similarityOut"));
+        job6.waitForCompletion(true);
+
+        System.out.println("JOB 6 completed");
 /*
         Configuration conf3 = new Configuration();
         //conf3.set("mapreduce.job.maps","10");
