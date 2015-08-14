@@ -101,11 +101,12 @@ public class Similarity {
                 //init
                 Text tmpSimKey = key.getSimKey();
                 if (currentSimKey ==null || !currentSimKey.toString().equals(tmpSimKey.toString())){
-                    currentSimKey = tmpSimKey;
+
                     if (currentSimKey!=null){
                         Text newValue = new Text("simSlotX:\tsim: "+simCompX.compSim()+"\tcosine: "+simCompX.compCosine()+"\tdice-cover: "+simCompX.compCover()+"simSlotY:\tsim: "+simCompY.compSim()+"\tcosine: "+simCompY.compCosine()+"\tdice-cover: "+simCompY.compCover());
                         context.write(key.getSimKey() , newValue);
                     }
+                    currentSimKey = tmpSimKey;
                     init();
                 }
 
@@ -125,7 +126,7 @@ public class Similarity {
                     isP1=true;
                 else
                     isP1 = false;
-                update(value,tableToUpdate,simToUpdate,isP1);
+                update(value, tableToUpdate,simToUpdate,isP1);
             }
         }
 
