@@ -48,11 +48,11 @@ import java.net.URI;
  */
 public class Flow extends Configured implements Tool  {
 
-//private String positiveTestSet = "/home/ran/Documents/DSP3/positive-preds.txt";
-//private String negativeTestSet = "/home/ran/Documents/DSP3/negative-preds.txt";
+private String positiveTestSet = "/home/ran/Documents/DSP3/positive-preds.txt";
+private String negativeTestSet = "/home/ran/Documents/DSP3/negative-preds.txt";
 
-private String positiveTestSet = "/home/barashe/Documents/DSP3/positive-preds.txt";
-private String negativeTestSet = "/home/barashe/Documents/DSP3/negative-preds.txt";
+//private String positiveTestSet = "/home/barashe/Documents/DSP3/positive-preds.txt";
+//private String negativeTestSet = "/home/barashe/Documents/DSP3/negative-preds.txt";
 
     public int run(String[] args) throws Exception {
         Configuration conf = new Configuration();
@@ -62,18 +62,16 @@ private String negativeTestSet = "/home/barashe/Documents/DSP3/negative-preds.tx
         //conf.set("mapred.reduce.tasks","10");
         /*conf.setBoolean("stop", (Integer.parseInt(args[5]) == 1 ? true : false));
         conf.set("language", args[4]);*/
-        /*
         final String inter = "/home/ran/Documents/DSP3/inter";
         final String inter2 = "/home/ran/Documents/DSP3/inter2";
         final String inter3 = "/home/ran/Documents/DSP3/inter3";
         final String inter4 = "/home/ran/Documents/DSP3/inter4";
-        */
-        ///*
+        /*
         final String inter = "/home/barashe/Documents/DSP3/inter";
         final String inter2 = "/home/barashe/Documents/DSP3/inter2";
         final String inter3 = "/home/barashe/Documents/DSP3/inter3";
         final String inter4 = "/home/barashe/Documents/DSP3/inter4";
-        //*/
+        */
         /*
         final String inter = "/output/inter";
         final String inter2 = "/output/inter2";
@@ -234,7 +232,7 @@ private String negativeTestSet = "/home/barashe/Documents/DSP3/negative-preds.tx
 
         job6.setPartitionerClass(SimilarityPartitioner.class);
         job6.setSortComparatorClass(SimilarityComparator.class);
-        //job6.setGroupingComparatorClass(AggregationGroupingComparator.class);
+        job6.setGroupingComparatorClass(SimilarityComparator.class);
         job6.setMapOutputKeyClass(PathKey.class);
         job6.setMapOutputValueClass(PathFeatValue.class);
         // Set the outputs

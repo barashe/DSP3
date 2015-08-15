@@ -73,13 +73,17 @@ public class Similarity {
 
         @Override
         public void map(PathKey key, PathFeatValue value, Context context) throws IOException, InterruptedException {
-            List<String> joinValues = joinData.get(key.getPath().toString().substring(1));
+            List<String> joinValues = joinData.get(key.getPath().toString());
             if (joinValues != null) {
                 for (String joinValue : joinValues) {
-                    key.setSimKey(key.getPath().toString() + "\t" + joinValue);
+                    Text currentPath = key.getPath();
+                    key.setSimKey(currentPath + "\t" + joinValue);
                     value.setWord(key.getWord());
                     value.setSlot(key.getSlot());
-                    context.write(key,value);
+                    context.write(key, value);
+
+                    key.setSimKey(joinValue + "\t" + currentPath);
+                    context.write(key, value);
                 }
                 //context.write(key,new Text(value.toString() + "," + joinValue));
             }
@@ -96,22 +100,11 @@ public class Similarity {
 
         @Override
         protected void reduce(PathKey key, Iterable<PathFeatValue> values, Context context) throws IOException, InterruptedException {
-            int count = 0;
+            init();
             for (PathFeatValue value : values) {
 
-                //init
-                Text tmpSimKey = key.getSimKey();
-                if (currentSimKey ==null || !currentSimKey.toString().equals(tmpSimKey.toString())){
-
-                    if (currentSimKey!=null){
-                        Text newValue = new Text("simSlotX:\tsim: "+simCompX.compSim()+"\tcosine: "+simCompX.compCosine()+"\tdice-cover: "+simCompX.compCover()+"simSlotY:\tsim: "+simCompY.compSim()+"\tcosine: "+simCompY.compCosine()+"\tdice-cover: "+simCompY.compCover());
-                        context.write(key.getSimKey() , newValue);
-                    }
-                    currentSimKey = tmpSimKey;
-                    init();
-                }
-
-                //add to feature table (after checking appropriate slot)
+                currentSimKey = key.getSimKey();
+                 //add to feature table (after checking appropriate slot)
                 Map<String,PathFeatValue> tableToUpdate;
                 SimComp simToUpdate;
                 if (value.getSlot().get()){
@@ -129,11 +122,15 @@ public class Similarity {
                     isP1 = false;
                 update(value, tableToUpdate,simToUpdate,isP1);
             }
+
+                Text newValue = new Text("simSlotX:\tsim: "+simCompX.compSim()+"\tcosine: "+simCompX.compCosine()+"\tdice-cover: "+simCompX.compCover()+"\tsimSlotY:\tsim: "+simCompY.compSim()+"\tcosine: "+simCompY.compCosine()+"\tdice-cover: "+simCompY.compCover());
+                context.write(key.getSimKey() , newValue);
         }
+
 
         private void update(PathFeatValue value, Map<String, PathFeatValue> tableToUpdate, SimComp simToUpdate,boolean isP1) {
             Text word = value.getWord();
-            PathFeatValue valueToUpdate = tableToUpdate.get(word);
+            PathFeatValue valueToUpdate = tableToUpdate.get(word.toString());
             if (valueToUpdate!=null){
                 if (isP1) {
                     simToUpdate.updateIntersect(value, valueToUpdate);
