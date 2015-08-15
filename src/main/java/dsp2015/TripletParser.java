@@ -171,8 +171,8 @@ public class TripletParser {
         if(firstNoun != null && secondNoun != null){
             if(isValid(pl, firstNoun, secondNoun) && isValid(pl, secondNoun, firstNoun)) {
                 paths = new String[2];
-                paths[0] = extractPath(pl, firstNoun, secondNoun, true);
-                paths[1] = extractPath(pl, secondNoun, firstNoun, false);
+                paths[0] = extractPath(pl, firstNoun, secondNoun, true).substring(1);
+                paths[1] = extractPath(pl, secondNoun, firstNoun, false).substring(1);
             }
         }
         count = pl.getCount();
