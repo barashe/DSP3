@@ -78,6 +78,7 @@ public class Similarity {
                 for (String joinValue : joinValues) {
                     key.setSimKey(key.getPath().toString() + "\t" + joinValue);
                     value.setWord(key.getWord());
+                    value.setSlot(key.getSlot());
                     context.write(key,value);
                 }
                 //context.write(key,new Text(value.toString() + "," + joinValue));
@@ -113,7 +114,7 @@ public class Similarity {
                 //add to feature table (after checking appropriate slot)
                 Map<String,PathFeatValue> tableToUpdate;
                 SimComp simToUpdate;
-                if (key.getSlot().get()){
+                if (value.getSlot().get()){
                     tableToUpdate = XfeatureTable;
                     simToUpdate = simCompX;
                 }

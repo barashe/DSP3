@@ -18,6 +18,7 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
     private DoubleWritable tfidf;
     private DoubleWritable dice;
     private BooleanWritable isFirst;
+    private BooleanWritable slot;
 
     public PathFeatValue(){
         path = new Text();
@@ -27,6 +28,7 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
         tfidf = new DoubleWritable();
         dice = new DoubleWritable();
         isFirst = new BooleanWritable();
+        slot = new BooleanWritable();
     }
 
     public void set(PathValue pv){
@@ -44,8 +46,17 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
         this.word.set(word);
     }
 
+    public void setSlot(BooleanWritable slot) {
+
+        this.slot.set(slot.get());
+    }
+
     public Text getWord() {
         return word;
+    }
+
+    public BooleanWritable getSlot() {
+        return new BooleanWritable(slot.get());
     }
 
     public void setFirst(boolean isFirst){
@@ -88,6 +99,7 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
         tfidf.write(dataOutput);
         dice.write(dataOutput);
         isFirst.write(dataOutput);
+        slot.write(dataOutput);
     }
 
     public void readFields(DataInput dataInput) throws IOException {
@@ -98,6 +110,7 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
         tfidf.readFields(dataInput);
         dice.readFields(dataInput);
         isFirst.readFields(dataInput);
+        slot.readFields(dataInput);
 
     }
 
