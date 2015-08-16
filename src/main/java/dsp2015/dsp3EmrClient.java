@@ -27,7 +27,7 @@ public class dsp3EmrClient {
         HadoopJarStepConfig hadoopJarStep = new HadoopJarStepConfig()
                 .withJar("s3n://ranerandsp3/DSP3-1.0-SNAPSHOT.jar") // This should be a full map reduce application.
                 .withMainClass("dsp2015.Flow")
-                .withArgs("s3n://ranerandsp3/out3","s3n://ranerandsp3/output-"+UUID.randomUUID()+"/","0","0");
+                .withArgs("s3n://dsp152/syntactic-ngram/biarcs/biarcs.17-of-99","s3n://ranerandsp3/output-"+UUID.randomUUID()+"/","0","0");
 
         StepConfig stepConfig = new StepConfig()
                                 .withName("flow")
@@ -37,9 +37,9 @@ public class dsp3EmrClient {
 
         JobFlowInstancesConfig instances = new JobFlowInstancesConfig()
                 .withEc2KeyName("raneran")
-                .withInstanceCount(3)
-                .withMasterInstanceType(InstanceType.M1Medium.toString())
-                .withSlaveInstanceType(InstanceType.M1Medium.toString())
+                .withInstanceCount(5)
+                .withMasterInstanceType(InstanceType.M1Large.toString())
+                .withSlaveInstanceType(InstanceType.C3Xlarge.toString())
                 .withHadoopVersion("2.6.0").withEc2KeyName("raneran")
                 .withKeepJobFlowAliveWhenNoSteps(false);
         //.withPlacement(new PlacementType("us-east-1a"));

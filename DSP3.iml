@@ -109,6 +109,10 @@
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-yarn-common:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-client:1.9" level="project" />
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-mapreduce-client-jobclient:2.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-aws:2.6.0" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.2.3" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.2.3" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.2.3" level="project" />
     <orderEntry type="library" name="Maven: com.amazonaws:aws-java-sdk:1.10.6" level="project" />
     <orderEntry type="library" name="Maven: com.amazonaws:aws-java-sdk-support:1.10.6" level="project" />
     <orderEntry type="library" name="Maven: com.amazonaws:aws-java-sdk-simpledb:1.10.6" level="project" />
@@ -162,9 +166,6 @@
     <orderEntry type="library" name="Maven: com.amazonaws:aws-java-sdk-codecommit:1.10.6" level="project" />
     <orderEntry type="library" name="Maven: com.amazonaws:aws-java-sdk-devicefarm:1.10.6" level="project" />
     <orderEntry type="library" name="Maven: com.amazonaws:aws-java-sdk-core:1.10.6" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.5.3" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.5.0" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.5.3" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.8.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient:4.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.3.3" level="project" />

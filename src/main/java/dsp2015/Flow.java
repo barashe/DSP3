@@ -82,6 +82,7 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
 
 
         conf.set("dpMinCount", args[2]);
+        conf.set("fs.s3n.impl","org.apache.hadoop.fs.s3native.NativeS3FileSystem");
         Job job1 = Job.getInstance(conf, "Aggregation");
         job1.setJarByClass(Flow.class);
         job1.setMapperClass(Aggregation.MapClass.class);
@@ -97,7 +98,7 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
         job1.setOutputKeyClass(PathKey.class);
         job1.setOutputValueClass(PathValue.class);
         job1.setOutputFormatClass(SequenceFileOutputFormat.class);
-        job1.setInputFormatClass(TextInputFormat.class);
+        job1.setInputFormatClass(SequenceFileInputFormat.class);
         FileInputFormat.addInputPath(job1, new Path(args[0]));
         FileOutputFormat.setOutputPath(job1, new Path(inter));
         //FileOutputFormat.setOutputPath(job1, new Path(args[1]));
