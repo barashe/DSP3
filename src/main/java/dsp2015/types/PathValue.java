@@ -12,6 +12,7 @@ import java.io.IOException;
 public class PathValue implements Writable, WritableComparable<PathValue>{
 
     private Text path;
+    private Text word;
     private IntWritable count;
     private IntWritable totalCount;
     private IntWritable totalPathSlotCount;
@@ -21,6 +22,7 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
 
     public PathValue() {
         path = new Text();
+        word = new Text();
         count = new IntWritable();
         totalCount = new IntWritable();
         totalPathSlotCount = new IntWritable();
@@ -32,6 +34,7 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
 
     public PathValue(Text path, IntWritable count, IntWritable totalCount, IntWritable totalPathSlotCount, IntWritable wordSlotCount, BooleanWritable isFirst) {
         this.path = path;
+        this.word = new Text();
         this.count = count;
         this.totalCount = totalCount;
         this.totalPathSlotCount = totalPathSlotCount;
@@ -67,6 +70,14 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
     public void set(String path, int count){
         this.path.set(path);
         this.count.set(count);
+    }
+
+    public void setWord(Text word){
+        this.word.set(word);
+    }
+
+    public Text getWord(){
+        return new Text(word);
     }
 
     public void setTotalCount(int totalCount) {
@@ -117,6 +128,7 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
 
     public void write(DataOutput dataOutput) throws IOException {
         path.write(dataOutput);
+        word.write(dataOutput);
         count.write(dataOutput);
         totalCount.write(dataOutput);
         totalPathSlotCount.write(dataOutput);
@@ -127,6 +139,7 @@ public class PathValue implements Writable, WritableComparable<PathValue>{
 
     public void readFields(DataInput dataInput) throws IOException {
         path.readFields(dataInput);
+        word.readFields(dataInput);
         count.readFields(dataInput);
         totalCount.readFields(dataInput);
         totalPathSlotCount.readFields(dataInput);

@@ -57,8 +57,8 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
     public int run(String[] args) throws Exception {
         Configuration conf = new Configuration();
 
-        //conf.set("mapred.job.tracker", "local");
-        //conf.set("fs.default.name", "file:////");
+        conf.set("mapred.job.tracker", "local");
+        conf.set("fs.default.name", "file:////");
         //conf.set("mapred.map.tasks","10");
         //conf.set("mapred.reduce.tasks","10");
         /*conf.setBoolean("stop", (Integer.parseInt(args[5]) == 1 ? true : false));
@@ -73,21 +73,21 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
 //        final String inter2 = "/home/ran/Documents/DSP3/inter2";
 //        final String inter3 = "/home/ran/Documents/DSP3/inter3";
 //        final String inter4 = "/home/ran/Documents/DSP3/inter4";
-        /*
+        ///*
         final String inter = "/home/barashe/Documents/DSP3/inter";
         final String inter2 = "/home/barashe/Documents/DSP3/inter2";
         final String inter3 = "/home/barashe/Documents/DSP3/inter3";
         final String inter4 = "/home/barashe/Documents/DSP3/inter4";
-        */
-
+        //*/
+        /*
         final String inter = args[1] + "/inter";
         final String inter2 = args[1] + "/inter2";
         final String inter3 = args[1] + "/inter3";
         final String inter4 = args[1] + "/inter4";
-
+        */
 
         conf.set("dpMinCount", args[2]);
-        conf.set("fs.s3n.impl","org.apache.hadoop.fs.s3native.NativeS3FileSystem");
+        //conf.set("fs.s3n.impl","org.apache.hadoop.fs.s3native.NativeS3FileSystem");
         Job job1 = Job.getInstance(conf, "Aggregation");
         job1.setJarByClass(Flow.class);
         job1.setMapperClass(Aggregation.MapClass.class);
@@ -103,7 +103,7 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
         job1.setOutputKeyClass(PathKey.class);
         job1.setOutputValueClass(PathValue.class);
         job1.setOutputFormatClass(SequenceFileOutputFormat.class);
-        job1.setInputFormatClass(SequenceFileInputFormat.class);
+        job1.setInputFormatClass(TextInputFormat.class);
         FileInputFormat.addInputPath(job1, new Path(args[0]));
         FileOutputFormat.setOutputPath(job1, new Path(inter));
         //FileOutputFormat.setOutputPath(job1, new Path(args[1]));
@@ -187,17 +187,17 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
         job4.setMapOutputKeyClass(PathKey.class);
         job4.setMapOutputValueClass(PathValue.class);
         // Set the outputs
-        job4.setOutputKeyClass(PathKey.class);
-        job4.setOutputValueClass(PathFeatValue.class);
+        //job4.setOutputKeyClass(PathKey.class);
+        //job4.setOutputValueClass(PathFeatValue.class);
         job4.setInputFormatClass(SequenceFileInputFormat.class);
-        job4.setOutputFormatClass(SequenceFileOutputFormat.class);
+        //job4.setOutputFormatClass(TextOutputFormat.class);
         FileInputFormat.addInputPath(job4, new Path(inter3));
         FileOutputFormat.setOutputPath(job4, new Path(inter4));
         //FileOutputFormat.setOutputPath(job4, new Path(args[1]));
         job4.waitForCompletion(true);
 
         System.out.println("JOB 4 completed");
-
+        /*
         Configuration conf5 = new Configuration();
         //conf5.set("mapreduce.job.maps","10");
         //conf5.set("mapreduce.job.reduces","10");
@@ -223,10 +223,10 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
         job5.waitForCompletion(true);
 
         System.out.println("JOB 5 completed");
-
+        */
         Configuration conf6 = new Configuration();
-        conf6.set("mapreduce.job.maps","10");
-        conf6.set("mapreduce.job.reduces","10");
+        //conf6.set("mapreduce.job.maps","10");
+        //conf6.set("mapreduce.job.reduces","10");
         //conf6.set("positiveTestSet",positiveTestSet);
         //conf6.set("negativeTestSet",negativeTestSet);
 
@@ -245,12 +245,12 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
         job6.setMapOutputValueClass(PathFeatValue.class);
         // Set the outputs
         //job6.setOutputKeyClass(Ngram.class);
-        job6.setOutputValueClass(PathFeatValue.class);
-        job6.setInputFormatClass(SequenceFileInputFormat.class);
+        //job6.setOutputValueClass(PathFeatValue.class);
+        job6.setInputFormatClass(TextInputFormat.class);
         //job6.setOutputFormatClass(FileOutputFormat.class);
         FileInputFormat.addInputPath(job6, new Path(inter4));
         //FileOutputFormat.setOutputPath(job6, new Path(inter3));
-        FileOutputFormat.setOutputPath(job6, new Path(args[1]+"/similarityOut"));
+        FileOutputFormat.setOutputPath(job6, new Path(args[1]+"/final"));
         job6.waitForCompletion(true);
 
         System.out.println("JOB 6 completed");

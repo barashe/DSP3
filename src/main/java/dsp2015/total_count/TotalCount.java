@@ -3,6 +3,9 @@ package dsp2015.total_count;
 import dsp2015.types.PathFeatValue;
 import dsp2015.types.PathKey;
 import dsp2015.types.PathValue;
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -18,6 +21,7 @@ public class TotalCount {
         protected void map(PathKey key, PathValue value, Context context) throws IOException, InterruptedException {
             key.setFirst(true);
             value.setFirst(true);
+            value.setWord(key.getWord());
             context.write(key, value);
             key.setFirst(false);
             value.setFirst(false);
@@ -25,15 +29,18 @@ public class TotalCount {
         }
     }
 
-    public static class ReduceClass extends Reducer<PathKey,PathValue,PathKey,PathFeatValue> {
+    public static class ReduceClass extends Reducer<PathKey,PathValue,Text,DoubleWritable> {
 
 
         private StatComp stat = new StatComp();
-        private PathFeatValue toSend = new PathFeatValue();
+        private Text toSend = new Text();
+        private DoubleWritable doubleToSend = new DoubleWritable();
+
 
         @Override
         protected void reduce(PathKey key, Iterable<PathValue> values, Context context) throws IOException, InterruptedException {
             int count = 0;
+            String tmp, slot = (key.getSlot().get()? "X" : "Y");
             for(PathValue value : values){
                 if(value.getIsFirst().get()) {
                     count+= value.getCount().get();
@@ -41,10 +48,17 @@ public class TotalCount {
 
                 else{
                     value.setTotalCount(count);
+                    stat.comp(value);
+                    tmp = key.getPath() +"\t" +slot + "\t" + value.getWord()+ "\t" + stat.getMi()+ "\t" + stat.getTfidf();
+                    doubleToSend.set(stat.getDice());
+                    toSend.set(tmp);
+                    context.write(toSend, doubleToSend);
+                    /*value.setTotalCount(count);
                     toSend.set(value);
                     stat.comp(value);
                     toSend.setStat(stat.getMi(), stat.getTfidf(), stat.getDice());
                     context.write(key, toSend);
+                    */
                 }
             }
         }

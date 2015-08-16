@@ -74,6 +74,10 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
         this.isFirst.set(isFirst);
     }
 
+    public void setPath(Text path){
+        this.path.set(path);
+    }
+
     public Text getPath() {
         return new Text(path);
     }
