@@ -46,7 +46,7 @@ public class Similarity {
                 localPaths[1]= new Path("negative-preds.txt");
 
                 LOG.warn("sanity1");
-                if (localPaths != null && localPaths.length == 2 ) {
+                if (localPaths.length == 2 ) {
                     String line;
                     String[] tokens;
                     LOG.warn("sanity2");
@@ -126,17 +126,18 @@ public class Similarity {
         private SimComp simCompX , simCompY;
         private Map<String , PathFeatValue> XfeatureTable;
         private Map<String , PathFeatValue> YfeatureTable;
+        private PathFeatValue tmpValue;
 
         @Override
         protected void reduce(PathKey key, Iterable<PathFeatValue> values, Context context) throws IOException, InterruptedException {
             init();
             for (PathFeatValue value : values) {
-
+                tmpValue = new PathFeatValue(value);
                 //currentSimKey = key.getSimKey();
                  //add to feature table (after checking appropriate slot)
                 Map<String,PathFeatValue> tableToUpdate;
                 SimComp simToUpdate;
-                if (value.getSlot().get()){
+                if (tmpValue.getSlot().get()){
                     tableToUpdate = XfeatureTable;
                     simToUpdate = simCompX;
                 }
@@ -149,11 +150,11 @@ public class Similarity {
                     isP1=true;
                 else
                     isP1 = false;
-                update(value, tableToUpdate,simToUpdate,isP1);
+                update(tmpValue, tableToUpdate,simToUpdate,isP1);
             }
 
-                Text newValue = new Text("simSlotX:\tsim: "+simCompX.compSim()+"\tcosine: "+simCompX.compCosine()+"\tdice-cover: "+simCompX.compCover()+"\tsimSlotY:\tsim: "+simCompY.compSim()+"\tcosine: "+simCompY.compCosine()+"\tdice-cover: "+simCompY.compCover());
-                context.write(key.getSimKey() , newValue);
+            Text newValue = new Text("simSlotX:\tsim: "+simCompX.compSim()+"\tcosine: "+simCompX.compCosine()+"\tdice-cover: "+simCompX.compCover()+"\tsimSlotY:\tsim: "+simCompY.compSim()+"\tcosine: "+simCompY.compCosine()+"\tdice-cover: "+simCompY.compCover());
+            context.write(key.getSimKey() , newValue);
         }
 
 

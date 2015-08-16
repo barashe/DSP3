@@ -64,10 +64,10 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
         /*conf.setBoolean("stop", (Integer.parseInt(args[5]) == 1 ? true : false));
         conf.set("language", args[4]);*/
 
-        final String inter = "s3n://ranerandsp3/inter";
-        final String inter2 = "s3n://ranerandsp3/inter2";
-        final String inter3 = "s3n://ranerandsp3/inter3";
-        final String inter4 = "s3n://ranerandsp3/inter4";
+        //final String inter = "s3n://ranerandsp3/inter";
+        //final String inter2 = "s3n://ranerandsp3/inter2";
+        //final String inter3 = "s3n://ranerandsp3/inter3";
+        //final String inter4 = "s3n://ranerandsp3/inter4";
 
 //        final String inter = "/home/ran/Documents/DSP3/inter";
 //        final String inter2 = "/home/ran/Documents/DSP3/inter2";
@@ -79,6 +79,11 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
         final String inter3 = "/home/barashe/Documents/DSP3/inter3";
         final String inter4 = "/home/barashe/Documents/DSP3/inter4";
         */
+
+        final String inter = args[1] + "/inter";
+        final String inter2 = args[1] + "/inter2";
+        final String inter3 = args[1] + "/inter3";
+        final String inter4 = args[1] + "/inter4";
 
 
         conf.set("dpMinCount", args[2]);
@@ -108,7 +113,7 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
 
         Configuration conf2 = new Configuration();
         //conf2.set("mapreduce.job.maps","10");
-        // conf2.set("mapreduce.job.reduces","10");
+        //conf2.set("mapreduce.job.reduces","10");
         conf2.set("minFeatNum", args[3]);
         Job job2 = Job.getInstance(conf2, "Path Count");
         job2.setJarByClass(PathCount.class);
@@ -165,7 +170,7 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
 
         Configuration conf4 = new Configuration();
         //conf4.set("mapreduce.job.maps","10");
-        // conf4.set("mapreduce.job.reduces","4");
+        //conf4.set("mapreduce.job.reduces","2");
 
 
         Job job4 = Job.getInstance(conf4, "Total Count");
@@ -213,14 +218,14 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
         //job5.setOutputFormatClass(FileOutputFormat.class);
         FileInputFormat.addInputPath(job5, new Path(inter4));
         //FileOutputFormat.setOutputPath(job5, new Path(inter3));
-        FileOutputFormat.setOutputPath(job5, new Path(args[1]));
+        FileOutputFormat.setOutputPath(job5, new Path(args[1]+"/features"));
         job5.waitForCompletion(true);
 
         System.out.println("JOB 5 completed");
 
         Configuration conf6 = new Configuration();
-        //conf6.set("mapreduce.job.maps","10");
-        //conf6.set("mapreduce.job.reduces","10");
+        conf6.set("mapreduce.job.maps","10");
+        conf6.set("mapreduce.job.reduces","10");
         //conf6.set("positiveTestSet",positiveTestSet);
         //conf6.set("negativeTestSet",negativeTestSet);
 

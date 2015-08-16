@@ -36,6 +36,17 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
         count.set(pv.getCount().get());
     }
 
+    public PathFeatValue(PathFeatValue pv){
+        path = pv.getPath();
+        word = pv.getWord();
+        count = pv.getCount();
+        mi = pv.getMi();
+        tfidf = pv.getTfidf();
+        dice = pv.getDice();
+        isFirst = pv.getIsFirst();
+        slot = pv.getSlot();
+    }
+
     public void setStat(double mi, double tfidf, double dice){
         this.mi.set(mi);
         this.tfidf.set(tfidf);
@@ -52,7 +63,7 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
     }
 
     public Text getWord() {
-        return word;
+        return new Text(word);
     }
 
     public BooleanWritable getSlot() {

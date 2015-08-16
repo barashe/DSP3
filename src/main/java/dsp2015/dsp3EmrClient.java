@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  * Created by ran on 15/08/15.
  */
 public class dsp3EmrClient {
-    public static String propertiesFilePath = "/home/ran/Downloads/cred.properties";
+    public static String propertiesFilePath = "/home/barashe/dsp/cred.properties";
 
     public static void main(String[] args) throws FileNotFoundException, IOException{
 
