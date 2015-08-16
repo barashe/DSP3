@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  * Created by ran on 15/08/15.
  */
 public class dsp3EmrClient {
-    public static String propertiesFilePath = "/home/barashe/dsp/cred.properties";
+    public static String propertiesFilePath = "/home/ran/Downloads/cred.properties";
 
     public static void main(String[] args) throws FileNotFoundException, IOException{
 
@@ -27,7 +27,7 @@ public class dsp3EmrClient {
         HadoopJarStepConfig hadoopJarStep = new HadoopJarStepConfig()
                 .withJar("s3n://ranerandsp3/DSP3-1.0-SNAPSHOT.jar") // This should be a full map reduce application.
                 .withMainClass("dsp2015.Flow")
-                .withArgs("s3n://dsp152/syntactic-ngram/biarcs/biarcs.17-of-99","s3n://ranerandsp3/output-"+UUID.randomUUID()+"/","0","0");
+                .withArgs("20","s3n://ranerandsp3/output-"+UUID.randomUUID()+"/","10","0");
 
         StepConfig stepConfig = new StepConfig()
                                 .withName("flow")

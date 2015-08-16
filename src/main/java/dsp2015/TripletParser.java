@@ -50,15 +50,24 @@ public class TripletParser {
     private class ParsedLine{
         private List<Word> words;
         private int count;
+        private boolean isNull = false;
 
-        public ParsedLine(String line) {
+        public boolean isNull(){
+            return isNull;
+        }
+
+        public ParsedLine(String line){
             words = new ArrayList<Word>();
             String[] tmp = line.split("\t");
             count = Integer.parseInt(tmp[2]);
             String[] wordsToParse = tmp[1].split(" ");
             for(int i = 0; i < wordsToParse.length; i++){
                 String[] data = wordsToParse[i].split("/");
-                Word word = new Word(data[0], data[1], Integer.parseInt(data[3]));
+                if (data.length!=4){
+                    isNull = true;
+                    break;
+                }
+                Word word = new Word(data[0], data[1], Integer.parseInt(data[data.length-1]));
                 words.add(word);
             }
         }
@@ -138,11 +147,13 @@ public class TripletParser {
 
     }
 
-    public void parse(String line){
+    public void parse(String line) {
 
         ParsedLine pl = new ParsedLine(line);
         Word word;
         paths = null;
+        if(pl.isNull())
+            return;
         Word firstNoun = null, secondNoun= null;
         for(int i = 0; i < pl.size(); i++){
             word = pl.getWord(i);

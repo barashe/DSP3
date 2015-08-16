@@ -48,43 +48,38 @@ import java.net.URI;
  */
 public class Flow extends Configured implements Tool  {
 
-private String positiveTestSet = "s3n://ranerandsp3/positive-preds.txt";
-private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
-
-//private String positiveTestSet = "/home/barashe/Documents/DSP3/positive-preds.txt";
-//private String negativeTestSet = "/home/barashe/Documents/DSP3/negative-preds.txt";
-
     public int run(String[] args) throws Exception {
         Configuration conf = new Configuration();
 
-        conf.set("mapred.job.tracker", "local");
-        conf.set("fs.default.name", "file:////");
+        //conf.set("mapred.job.tracker", "local");
+        //conf.set("fs.default.name", "file:////");
         //conf.set("mapred.map.tasks","10");
         //conf.set("mapred.reduce.tasks","10");
         /*conf.setBoolean("stop", (Integer.parseInt(args[5]) == 1 ? true : false));
         conf.set("language", args[4]);*/
 
-        //final String inter = "s3n://ranerandsp3/inter";
-        //final String inter2 = "s3n://ranerandsp3/inter2";
-        //final String inter3 = "s3n://ranerandsp3/inter3";
-        //final String inter4 = "s3n://ranerandsp3/inter4";
+        final String inter = "s3n://ranerandsp3/inter";
+        final String inter2 = "s3n://ranerandsp3/inter2";
+        final String inter3 = "s3n://ranerandsp3/inter3";
+        final String inter4 = "s3n://ranerandsp3/inter4";
 
 //        final String inter = "/home/ran/Documents/DSP3/inter";
 //        final String inter2 = "/home/ran/Documents/DSP3/inter2";
 //        final String inter3 = "/home/ran/Documents/DSP3/inter3";
 //        final String inter4 = "/home/ran/Documents/DSP3/inter4";
-        ///*
+        /*
         final String inter = "/home/barashe/Documents/DSP3/inter";
         final String inter2 = "/home/barashe/Documents/DSP3/inter2";
         final String inter3 = "/home/barashe/Documents/DSP3/inter3";
         final String inter4 = "/home/barashe/Documents/DSP3/inter4";
-        //*/
+        */
         /*
         final String inter = args[1] + "/inter";
         final String inter2 = args[1] + "/inter2";
         final String inter3 = args[1] + "/inter3";
         final String inter4 = args[1] + "/inter4";
         */
+        String commaSepartedPaths = createPaths(Integer.valueOf(args[0]));
 
         conf.set("dpMinCount", args[2]);
         //conf.set("fs.s3n.impl","org.apache.hadoop.fs.s3native.NativeS3FileSystem");
@@ -103,8 +98,8 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
         job1.setOutputKeyClass(PathKey.class);
         job1.setOutputValueClass(PathValue.class);
         job1.setOutputFormatClass(SequenceFileOutputFormat.class);
-        job1.setInputFormatClass(TextInputFormat.class);
-        FileInputFormat.addInputPath(job1, new Path(args[0]));
+        job1.setInputFormatClass(SequenceFileInputFormat.class);
+        FileInputFormat.addInputPaths(job1, commaSepartedPaths);
         FileOutputFormat.setOutputPath(job1, new Path(inter));
         //FileOutputFormat.setOutputPath(job1, new Path(args[1]));
 
@@ -250,7 +245,7 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
         //job6.setOutputFormatClass(FileOutputFormat.class);
         FileInputFormat.addInputPath(job6, new Path(inter4));
         //FileOutputFormat.setOutputPath(job6, new Path(inter3));
-        FileOutputFormat.setOutputPath(job6, new Path(args[1]+"/final"));
+        FileOutputFormat.setOutputPath(job6, new Path(args[1]));
         job6.waitForCompletion(true);
 
         System.out.println("JOB 6 completed");
@@ -310,6 +305,21 @@ private String negativeTestSet = "s3n://ranerandsp3/negative-preds.txt";
         System.out.println("JOB 4 completed");
 */
         return 1;
+    }
+
+    private String createPaths(int percentage) {
+        String template1 = "s3n://dsp152/syntactic-ngram/biarcs/biarcs.";
+        String template2 = "-of-99";
+        String ret = "";
+        for (int i = 0; i < percentage; i++) {
+            if (i<10){
+                ret = ret + template1 + "0" + i + template2 + ",";
+            }
+            else{
+                ret = ret + template1 + i + template2 + ",";
+            }
+        }
+        return ret.substring( 0 , ret.length()-1);
     }
 
     public static void main(String[] args) throws Exception {

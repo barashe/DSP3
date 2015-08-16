@@ -44,8 +44,8 @@ public class Similarity {
                 Path[] localPaths = new Path[2];
                 //localPaths[0]= new Path(context.getConfiguration().get("positiveTestSet"));
                 //localPaths[1]= new Path(context.getConfiguration().get("negativeTestSet"));
-                localPaths[0]= new Path("/home/barashe/IdeaProjects/DSP3/src/main/java/dsp2015/positive-preds.txt");
-                localPaths[1]= new Path("/home/barashe/IdeaProjects/DSP3/src/main/java/dsp2015/negative-preds.txt");
+                localPaths[0]= new Path("positive-preds.txt");
+                localPaths[1]= new Path("negative-preds.txt");
 
                 LOG.warn("sanity1");
                 if (localPaths.length == 2 ) {
@@ -53,11 +53,11 @@ public class Similarity {
                     String[] tokens;
                     LOG.warn("sanity2");
                     for (int i=0 ; i<2 ; i++) {
-//                        InputStream is = getClass().getClassLoader().getResourceAsStream(localPaths[i].toString());
-//                        BufferedReader joinReader=new BufferedReader(new InputStreamReader(is));
+                        InputStream is = getClass().getClassLoader().getResourceAsStream(localPaths[i].toString());
+                        BufferedReader joinReader=new BufferedReader(new InputStreamReader(is));
 
-                        FileReader fr = new FileReader(localPaths[i].toString());
-                        BufferedReader joinReader = new BufferedReader(fr);
+//                        FileReader fr = new FileReader(localPaths[i].toString());
+  //                      BufferedReader joinReader = new BufferedReader(fr);
                         try {
                             LOG.warn("before reading test sets , path"+i+" = "+ localPaths[i].toString());
                             while ((line = joinReader.readLine()) != null) {
