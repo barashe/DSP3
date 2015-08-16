@@ -39,7 +39,7 @@ public class TotalCount {
 
         @Override
         protected void reduce(PathKey key, Iterable<PathValue> values, Context context) throws IOException, InterruptedException {
-            int count = 0;
+            long count = 0;
             String tmp, slot = (key.getSlot().get()? "X" : "Y");
             for(PathValue value : values){
                 if(value.getIsFirst().get()) {
@@ -49,8 +49,10 @@ public class TotalCount {
                 else{
                     value.setTotalCount(count);
                     stat.comp(value);
-                    tmp = key.getPath() +"\t" +slot + "\t" + value.getWord()+ "\t" + stat.getMi()+ "\t" + stat.getTfidf();
-                    doubleToSend.set(stat.getDice());
+                    //tmp = key.getPath() +"\t" +slot + "\t" + value.getWord()+ "\t" + stat.getMi()+ "\t" + stat.getTfidf();
+                    tmp = key.getPath() +"\t" +slot + "\t" + value.getWord()+ "\t" + stat.getMi()+ "\t" + stat.getTfidf()  + "\t" + stat.getDice()  + "\t" + value.getCount() + "\t" + value.getTotalCount() + "\t" + value.getWordSlotCount();
+                    //doubleToSend.set(stat.getDice());
+                    doubleToSend.set(value.getTotalPathSlotCount().get());
                     toSend.set(tmp);
                     context.write(toSend, doubleToSend);
                     /*value.setTotalCount(count);
@@ -67,7 +69,7 @@ public class TotalCount {
     public static class CombinerClass extends Reducer<PathKey,PathValue,PathKey,PathValue> {
         @Override
         protected void reduce(PathKey key, Iterable<PathValue> values, Context context) throws IOException, InterruptedException {
-            int count = 0;
+            long count = 0;
             boolean sendFirst = true;
             for(PathValue value : values){
                 if(value.getIsFirst().get()) {

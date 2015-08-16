@@ -56,8 +56,8 @@ public class Similarity {
                         InputStream is = getClass().getClassLoader().getResourceAsStream(localPaths[i].toString());
                         BufferedReader joinReader=new BufferedReader(new InputStreamReader(is));
 
-//                        FileReader fr = new FileReader(localPaths[i].toString());
-  //                      BufferedReader joinReader = new BufferedReader(fr);
+                        //FileReader fr = new FileReader(localPaths[i].toString());
+                        //BufferedReader joinReader = new BufferedReader(fr);
                         try {
                             LOG.warn("before reading test sets , path"+i+" = "+ localPaths[i].toString());
                             while ((line = joinReader.readLine()) != null) {

@@ -33,7 +33,7 @@ public class PathFeatValue implements Writable, WritableComparable<PathFeatValue
 
     public void set(PathValue pv){
         path.set(pv.getPath());
-        count.set(pv.getCount().get());
+        count.set((int)pv.getCount().get());
     }
 
     public PathFeatValue(PathFeatValue pv){

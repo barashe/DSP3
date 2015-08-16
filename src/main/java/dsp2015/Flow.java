@@ -58,10 +58,12 @@ public class Flow extends Configured implements Tool  {
         /*conf.setBoolean("stop", (Integer.parseInt(args[5]) == 1 ? true : false));
         conf.set("language", args[4]);*/
 
-        final String inter = "s3n://ranerandsp3/inter";
-        final String inter2 = "s3n://ranerandsp3/inter2";
-        final String inter3 = "s3n://ranerandsp3/inter3";
-        final String inter4 = "s3n://ranerandsp3/inter4";
+        ///*
+        final String inter = "s3n://ranerandsp4/inter";
+        final String inter2 = "s3n://ranerandsp4/inter2";
+        final String inter3 = "s3n://ranerandsp4/inter3";
+        final String inter4 = "s3n://ranerandsp4/inter4";
+        //*/
 
 //        final String inter = "/home/ran/Documents/DSP3/inter";
 //        final String inter2 = "/home/ran/Documents/DSP3/inter2";
@@ -101,7 +103,7 @@ public class Flow extends Configured implements Tool  {
         job1.setInputFormatClass(SequenceFileInputFormat.class);
         FileInputFormat.addInputPaths(job1, commaSepartedPaths);
         FileOutputFormat.setOutputPath(job1, new Path(inter));
-        //FileOutputFormat.setOutputPath(job1, new Path(args[1]));
+        //FileInputFormat.addInputPath(job1, new Path(args[0]));
 
         job1.waitForCompletion(true);
 
