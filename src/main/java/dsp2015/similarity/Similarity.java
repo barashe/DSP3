@@ -1,8 +1,6 @@
 package dsp2015.similarity;
-import java.io.BufferedReader;
+import java.io.*;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 
@@ -10,6 +8,8 @@ import dsp2015.total_count.StatComp;
 import dsp2015.types.PathFeatValue;
 import dsp2015.types.PathKey;
 import dsp2015.types.PathValue;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hdfs.server.namenode.ListPathsServlet;
 import org.apache.hadoop.io.BooleanWritable;
@@ -28,26 +28,41 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 */
 public class Similarity {
 
+    private static final Log LOG = LogFactory.getLog(Similarity.class);
+
     public static class MapClass extends Mapper<PathKey, PathFeatValue, PathKey, PathFeatValue> {
 
-        private Hashtable<String, List<String>> joinData = new Hashtable<String, List<String>>();
+        private Map<String, List<String>> joinData = new HashMap<String, List<String>>();
+        private Map<String, List<String>> joinDataReverse = new HashMap<String, List<String>>();
+
 
         @Override
         public void setup(Context context) {
             try {
                 Path[] localPaths = new Path[2];
-                localPaths[0]= new Path(context.getConfiguration().get("positiveTestSet"));
-                localPaths[1]= new Path(context.getConfiguration().get("negativeTestSet"));
+                //localPaths[0]= new Path(context.getConfiguration().get("positiveTestSet"));
+                //localPaths[1]= new Path(context.getConfiguration().get("negativeTestSet"));
+                localPaths[0]= new Path("positive-preds.txt");
+                localPaths[1]= new Path("negative-preds.txt");
+
+                LOG.warn("sanity1");
                 if (localPaths != null && localPaths.length == 2 ) {
                     String line;
                     String[] tokens;
+                    LOG.warn("sanity2");
                     for (int i=0 ; i<2 ; i++) {
-                        BufferedReader joinReader = new BufferedReader(new FileReader(localPaths[i].toString()));
+                        InputStream is = getClass().getClassLoader().getResourceAsStream(localPaths[i].toString());
+                        BufferedReader joinReader=new BufferedReader(new InputStreamReader(is));
+
+//                        FileReader fr = new FileReader(localPaths[i].toString());
+//                        BufferedReader joinReader = new BufferedReader(fr);
                         try {
+                            LOG.warn("before reading test sets , path"+i+" = "+ localPaths[i].toString());
                             while ((line = joinReader.readLine()) != null) {
+                                LOG.warn("reading test set line = " + line);
                                 tokens = line.split("\t", 2);
-                                putData(tokens[0],tokens[1]);
-                                putData(tokens[1],tokens[0]);
+                                putData(tokens[0],tokens[1] , joinData);
+                                putData(tokens[1],tokens[0] , joinDataReverse);
                             }
                         } finally {
                             joinReader.close();
@@ -59,14 +74,14 @@ public class Similarity {
             }
         }
 
-        private void putData(String key, String value) {
-            if (joinData.containsKey(key)){
-                joinData.get(key).add(value);
+        private void putData(String key, String value , Map<String, List<String>> target) {
+            if (target.containsKey(key)){
+                target.get(key).add(value);
             }
                 else{
                     List<String> tmpList = new ArrayList<String>();
                     tmpList.add(value);
-                    joinData.put(key, tmpList);
+                    target.put(key, tmpList);
                 }
 
         }
@@ -74,16 +89,30 @@ public class Similarity {
         @Override
         public void map(PathKey key, PathFeatValue value, Context context) throws IOException, InterruptedException {
             List<String> joinValues = joinData.get(key.getPath().toString());
-            if (joinValues != null) {
-                for (String joinValue : joinValues) {
-                    Text currentPath = key.getPath();
-                    key.setSimKey(currentPath + "\t" + joinValue);
-                    value.setWord(key.getWord());
-                    value.setSlot(key.getSlot());
-                    context.write(key, value);
+            List<String> joinValuesReversed = joinDataReverse.get(key.getPath().toString());
 
-                    key.setSimKey(joinValue + "\t" + currentPath);
-                    context.write(key, value);
+            write(key , value , joinValues , false , context);
+            write(key, value, joinValuesReversed, true, context);
+
+        }
+
+        private void write(PathKey key, PathFeatValue value, List<String> joinValuesCandidate, boolean isReversed, Context context) {
+            if (joinValuesCandidate != null) {
+                for (String joinValue : joinValuesCandidate) {
+                    try {
+                        Text currentPath = key.getPath();
+                        if(!isReversed)
+                            key.setSimKey(currentPath + "\t" + joinValue);
+                        else
+                            key.setSimKey(joinValue + "\t" + currentPath);
+                        value.setWord(key.getWord());
+                        value.setSlot(key.getSlot());
+                        context.write(key, value);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
                 //context.write(key,new Text(value.toString() + "," + joinValue));
             }
@@ -92,7 +121,7 @@ public class Similarity {
 
     public static class ReduceClass extends Reducer<PathKey,PathFeatValue,Text,Text> {
 
-        private Text currentSimKey;
+        //private Text currentSimKey;
         private boolean isP1 = false;
         private SimComp simCompX , simCompY;
         private Map<String , PathFeatValue> XfeatureTable;
@@ -103,7 +132,7 @@ public class Similarity {
             init();
             for (PathFeatValue value : values) {
 
-                currentSimKey = key.getSimKey();
+                //currentSimKey = key.getSimKey();
                  //add to feature table (after checking appropriate slot)
                 Map<String,PathFeatValue> tableToUpdate;
                 SimComp simToUpdate;

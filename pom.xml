@@ -31,7 +31,7 @@
       <artifactId>hadoop-client</artifactId>
       <version>2.6.0</version>
     </dependency>
-    <dependency>
+    <!--dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>
         hadoop-mapreduce-client-jobclient
@@ -66,6 +66,16 @@
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-mapreduce-client-hs</artifactId>
       <version>2.6.0</version>
+    </dependency-->
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk</artifactId>
+      <version>1.10.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3.6</version>
     </dependency>
   </dependencies>
   <build>
