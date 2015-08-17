@@ -62,5 +62,9 @@ public class SimComp {
             sumTfidfP2 += value.getTfidf().get();
         }
     }
+
+    public static double sComp(double simX, double simY){
+        return Math.sqrt(simX * simY);
+    }
 }
 

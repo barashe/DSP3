@@ -25,9 +25,9 @@ public class dsp3EmrClient {
         AmazonElasticMapReduce mapReduce = new AmazonElasticMapReduceClient(credentials);
         mapReduce.setRegion(Region.getRegion(Regions.US_EAST_1));
         HadoopJarStepConfig hadoopJarStep = new HadoopJarStepConfig()
-                .withJar("s3n://ranerandsp4/DSP3-1.0-SNAPSHOT.jar") // This should be a full map reduce application.
+                .withJar("s3n://ranerandsp6/DSP3-1.0-SNAPSHOT.jar") // This should be a full map reduce application.
                 .withMainClass("dsp2015.Flow")
-                .withArgs("20","s3n://ranerandsp4/output-"+UUID.randomUUID()+"/","0","0");
+                .withArgs("20","s3n://ranerandsp6/output-"+UUID.randomUUID()+"/","0","0");
 
         StepConfig stepConfig = new StepConfig()
                                 .withName("flow")
@@ -50,7 +50,7 @@ public class dsp3EmrClient {
                 .withName("DSP3flow")
                 .withInstances(instances)
                 .withSteps(stepConfig)
-                .withLogUri("s3n://ranerandsp4/logs/");
+                .withLogUri("s3n://ranerandsp6/logs/");
 
         RunJobFlowResult runJobFlowResult = mapReduce.runJobFlow(runFlowRequest);
         String jobFlowId = runJobFlowResult.getJobFlowId();

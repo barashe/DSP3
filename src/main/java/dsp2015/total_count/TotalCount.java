@@ -49,10 +49,10 @@ public class TotalCount {
                 else{
                     value.setTotalCount(count);
                     stat.comp(value);
-                    //tmp = key.getPath() +"\t" +slot + "\t" + value.getWord()+ "\t" + stat.getMi()+ "\t" + stat.getTfidf();
-                    tmp = key.getPath() +"\t" +slot + "\t" + value.getWord()+ "\t" + stat.getMi()+ "\t" + stat.getTfidf()  + "\t" + stat.getDice()  + "\t" + value.getCount() + "\t" + value.getTotalCount() + "\t" + value.getWordSlotCount();
-                    //doubleToSend.set(stat.getDice());
-                    doubleToSend.set(value.getTotalPathSlotCount().get());
+                    tmp = key.getPath() +"\t" +slot + "\t" + value.getWord()+ "\t" + stat.getMi()+ "\t" + stat.getTfidf();
+                    //tmp = key.getPath() +"\t" +slot + "\t" + value.getWord()+ "\t" + stat.getMi()+ "\t" + stat.getTfidf()  + "\t" + stat.getDice()  + "\t" + value.getCount() + "\t" + value.getTotalCount() + "\t" + value.getWordSlotCount();
+                    doubleToSend.set(stat.getDice());
+                    //doubleToSend.set(value.getTotalPathSlotCount().get());
                     toSend.set(tmp);
                     context.write(toSend, doubleToSend);
                     /*value.setTotalCount(count);
