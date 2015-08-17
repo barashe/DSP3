@@ -59,10 +59,10 @@ public class Flow extends Configured implements Tool  {
         conf.set("language", args[4]);*/
 
         ///*
-        final String inter = "s3n://ranerandsp4/inter";
-        final String inter2 = "s3n://ranerandsp4/inter2";
-        final String inter3 = "s3n://ranerandsp4/inter3";
-        final String inter4 = "s3n://ranerandsp4/inter4";
+        final String inter = "s3n://ranerandsp6/inter";
+        final String inter2 = "s3n://ranerandsp6/inter2";
+        final String inter3 = "s3n://ranerandsp6/inter3";
+        final String inter4 = "s3n://ranerandsp6/inter4";
         //*/
 
 //        final String inter = "/home/ran/Documents/DSP3/inter";

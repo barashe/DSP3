@@ -137,6 +137,7 @@ public class Similarity {
         private Map<String , PathFeatValue> XfeatureTable;
         private Map<String , PathFeatValue> YfeatureTable;
         private PathFeatValue tmpValue;
+        private Text newValue = new Text();
 
         @Override
         protected void reduce(PathKey key, Iterable<PathFeatValue> values, Context context) throws IOException, InterruptedException {
@@ -163,7 +164,8 @@ public class Similarity {
                 update(tmpValue, tableToUpdate,simToUpdate,isP1);
             }
 
-            Text newValue = new Text("simSlotX:\tsim: "+simCompX.compSim()+"\tcosine: "+simCompX.compCosine()+"\tdice-cover: "+simCompX.compCover()+"\tsimSlotY:\tsim: "+simCompY.compSim()+"\tcosine: "+simCompY.compCosine()+"\tdice-cover: "+simCompY.compCover());
+            //Text newValue = new Text("simSlotX:\tsim: "+simCompX.compSim()+"\tcosine: "+simCompX.compCosine()+"\tdice-cover: "+simCompX.compCover()+"\tsimSlotY:\tsim: "+simCompY.compSim()+"\tcosine: "+simCompY.compCosine()+"\tdice-cover: "+simCompY.compCover());
+            newValue.set("PMIN-LIN:\tsim: "+SimComp.sComp(simCompX.compSim(), simCompY.compSim())+"\tTFIDF-COS: "+SimComp.sComp(simCompX.compCosine(), simCompY.compCosine())+"\tDICE-cover: "+SimComp.sComp(simCompX.compCover(), simCompY.compCover()));
             context.write(key.getSimKey() , newValue);
         }
 
